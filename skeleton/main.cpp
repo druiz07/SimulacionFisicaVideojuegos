@@ -3,7 +3,7 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-
+#include "Particula.hpp"
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
@@ -24,7 +24,7 @@ PxPhysics*				gPhysics	= NULL;
 PxMaterial*				gMaterial	= NULL;
 
 PxPvd*                  gPvd        = NULL;
-
+Particula*				pPrueba		= NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
@@ -53,6 +53,7 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	//Creacion y init de escena
 	}
 
 
@@ -62,7 +63,7 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-
+	if(pPrueba)pPrueba->PhysicUpdate(t);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 }
@@ -94,8 +95,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case ' ':
+	case 'F':
 	{
+		Vector3 pos = { 0,0,0 };
+		Vector3 dir = { 1,0,0 };
+		pPrueba = new Particula(pos, dir.getNormalized(), { 0,1,0 }, 1, 1, new RenderItem(CreateShape(PxSphereGeometry(5.0)), Vector4(1, 0, 1, 1)));
 		break;
 	}
 	default:
