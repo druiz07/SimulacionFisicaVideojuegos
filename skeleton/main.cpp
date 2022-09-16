@@ -73,7 +73,7 @@ void stepPhysics(bool interactive, double t)
 void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
-
+	delete pPrueba;
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
@@ -97,6 +97,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	//case ' ':	break;
 	case 'F':
 	{
+		if (pPrueba != nullptr)delete pPrueba;
 		Vector3 pos = { 0,0,0 };
 		Vector3 dir = { 1,0,0 };
 		pPrueba = new Particula(pos, dir.getNormalized(), { 0,1,0 }, 1, 1, new RenderItem(CreateShape(PxSphereGeometry(5.0)), Vector4(1, 0, 1, 1)));
