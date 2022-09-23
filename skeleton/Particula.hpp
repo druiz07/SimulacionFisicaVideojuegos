@@ -5,14 +5,14 @@
 
 using namespace physx;
 
-class Particula 
+class Particula
 {
 public:
 
 	PxTransform position;
 	Vector3 speed;
 	Vector3 acceleration;
-    
+
 	float mass, damping;
 	RenderItem* renderItem;
 
@@ -20,7 +20,7 @@ public:
 	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem);
 	~Particula();
 
-	void PhysicUpdate(float deltaTime) ;
+	void PhysicUpdate(float deltaTime);
 	float acumulador;
 };
 
@@ -34,7 +34,7 @@ Particula::Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleratio
 	this->renderItem->transform = &this->position;
 	this->renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
 
-	//this->damping = damping;
+	this->damping = damping;   //Rozamiento entre 0 y 1
 }
 
 
@@ -42,9 +42,9 @@ Particula::Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleratio
 inline void Particula::PhysicUpdate(float deltaTime)
 {
 	this->position.p += (this->speed * deltaTime);
-	this->speed += (this->acceleration * deltaTime);
+	//this->speed += (this->acceleration * deltaTime);
 
-	//this->speed *= powf(damping, deltaTime);
+	this->speed = this->speed*  powf(damping, deltaTime) + acceleration * deltaTime;
 }
 
 Particula::Particula() noexcept

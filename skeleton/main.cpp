@@ -99,8 +99,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		if (pPrueba != nullptr)delete pPrueba;
 		Vector3 pos = { 0,0,0 };
-		Vector3 dir = { 1,0,0 };
-		pPrueba = new Particula(pos, dir.getNormalized(), { 0,1,0 }, 1, 1, new RenderItem(CreateShape(PxSphereGeometry(5.0)), Vector4(1, 0, 1, 1)));
+		Vector3 dir = { 20,0,0 };
+		pPrueba = new Particula(pos, dir.getNormalized(), { 0,-9.8,0 }, 1,0.99, new RenderItem(CreateShape(PxSphereGeometry(5.0)), Vector4(1, 0, 1, 1)));
 		break;
 	}
 	default:
