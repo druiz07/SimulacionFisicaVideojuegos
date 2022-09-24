@@ -1,0 +1,9 @@
+He seleccionado un proyectil de tanque para usar como mi tipo de proyectil a parte de los que venian predeterminados en el switch case de las diapositivas
+Proporciones
+Peso real : 1150 KG
+Velocidad Real 1800 metros /segund
+Velocidad Simulada : 75 m/s
+Esto nos da un peso simulado de : 249457 
+
+Implementamos en el main una gestion de losproyectiles mediante un vector (tambien controlamos su limipieza)
+y gracias a un enu que tienen los proyectiles como parametro podemos poner el tipo que deseemos

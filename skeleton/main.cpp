@@ -7,8 +7,10 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-
+#include <vector>
+#include "Proyectil.hpp"
 #include <iostream>
+using namespace std;
 
 
 
@@ -24,7 +26,7 @@ PxPhysics*				gPhysics	= NULL;
 PxMaterial*				gMaterial	= NULL;
 
 PxPvd*                  gPvd        = NULL;
-Particula*				pPrueba		= NULL;
+std::vector<Proyectil*>	proyectiles[];
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
@@ -63,7 +65,10 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-	if(pPrueba)pPrueba->PhysicUpdate(t);
+	for (int i = 0; i < proyectiles->size(); i++)
+	{
+		//Actualizacion de fisicas
+	}
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 }
@@ -73,7 +78,11 @@ void stepPhysics(bool interactive, double t)
 void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
-	delete pPrueba;
+	for (int i = 0; i < proyectiles->size(); i++)
+	{
+		
+		//Borrado
+	}
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
@@ -95,12 +104,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case 'F':
+	case 'T':
 	{
-		if (pPrueba != nullptr)delete pPrueba;
-		Vector3 pos = { 0,0,0 };
-		Vector3 dir = { 20,0,0 };
-		pPrueba = new Particula(pos, dir.getNormalized(), { 0,-9.8,0 }, 1,0.99, new RenderItem(CreateShape(PxSphereGeometry(5.0)), Vector4(1, 0, 1, 1)));
+		
+		Camera* cam = GetCamera();
+		Vector3 dir = cam->getDir();
+		Vector3 pos = cam->getTransform().p;
+		//int offset = 5;
+		//
+		//pos.z += offset;
+		proyectiles->push_back(new Proyectil(pos, dir.getNormalized(), { 0.0,0,9.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.0)), Vector4(1, 0, 1, 1)),TANK));
 		break;
 	}
 	default:
