@@ -19,12 +19,13 @@ public:
 	Particula() noexcept;
 	void setPosition(Vector3 position);
 	void setMass(float mass);
-	void setVelocity(Vector3 speed);
-	void setAcceleration(Vector3 acceleration);
-	void setDamping(float damping);
+	void setVelocity(Vector3 s);
+	void setAcceleration(Vector3 a);
+	void setDamping(float d);
 	void setColor(Vector4 color);
 	void setSize(const float size);
 	void setColorShiftSpeed(const float shiftSpeed);
+	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri);
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -33,76 +34,77 @@ public:
 	float getDamping() const;
 
 	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem);
+	//Particula();
 	~Particula();
 
 	void integrate(float deltaTime);
 	float acumulador;
 };
 
-Particula::Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem)
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri)
 {
-	this->position = PxTransform(position.x, position.y, position.z);
-	this->speed = initialSpeed;
-	this->acceleration = acceleration;
+	position = PxTransform(p.x, p.y, p.z);
+	speed = initialSpeed;
+	acceleration = a;
 
-	//this->mass = mass;
+	//this->mass = m;
 
-	this->renderItem = renderItem;
-	this->renderItem->transform = &this->position;
-	this->renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
+	renderItem = ri;
+	renderItem->transform = &position;
+	renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
 
-	this->damping = damping;   //Rozamiento entre 0 y 1
+	damping = d;   //Rozamiento entre 0 y 1
 }
 
 
 
 inline void Particula::integrate(float deltaTime)
 {
-	this->position.p += (this->speed * deltaTime);
+	position.p += (speed * deltaTime);
 	//this->speed += (this->acceleration * deltaTime);
 
-	this->speed = this->speed*  powf(damping, deltaTime) + acceleration * deltaTime;
+	this->speed = speed *powf(damping, deltaTime) + acceleration * deltaTime;
 }
 
-Particula::Particula() noexcept
-{
-	this->position = PxTransform(0, 0, 0);
-	this->speed = { 1,0,0 };
-	this->acceleration = { 0,0,0 };
-	this->mass = 0;
-	this->renderItem = new RenderItem(CreateShape(PxSphereGeometry(2.0)), &position, Vector4(1, 0, 1, 1));
-	this->damping = 0;
-}
+//Particula::Particula() 
+//{
+//	position = PxTransform(0, 0, 0);
+//	speed = { 1,0,0 };
+//	acceleration = { 0,0,0 };
+//	mass = 0;
+//	renderItem = new RenderItem(CreateShape(PxSphereGeometry(2.0)), &position, Vector4(1, 0, 1, 1));
+//	damping = 0;
+//}
 
 
-void Particula::setPosition(Vector3 position)
+void Particula::setPosition(Vector3 p)
 {
-	this->position.p = position;
+	position.p = p;
 }
 
 void Particula::setMass(float mass)
 {
-	this->mass = mass;
+	mass = mass;
 }
 
-void Particula::setVelocity(Vector3 speed)
+void Particula::setVelocity(Vector3 s)
 {
-	this->speed = speed;
+	speed = s;
 }
 
-void Particula::setAcceleration(Vector3 acceleration)
+void Particula::setAcceleration(Vector3 a)
 {
-	this->acceleration = acceleration;
+	acceleration = a;
 }
 
-void Particula::setDamping(float damping)
+void Particula::setDamping(float d)
 {
-	this->damping = damping;
+	damping = d;
 }
 
 void Particula::setColor(Vector4 color)
 {
-	this->renderItem->color = color;
+	renderItem->color = color;
 }
 
 void Particula::setSize(const float size)
@@ -110,33 +112,48 @@ void Particula::setSize(const float size)
 	renderItem->shape = CreateShape(PxSphereGeometry(size));
 }
 
+inline void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri)
+{
+	position = PxTransform(pos.x, pos.y, pos.z);
+	speed = initialSpeed;
+	acceleration = a;
+
+	//this->mass = m;
+
+	renderItem = ri;
+	renderItem->transform = &position;
+	renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
+
+	damping = d;   //Rozamiento entre 0 y 1
+}
+
 
 Vector3 Particula::getPosition() const
 {
-	return this->position.p;
+	return position.p;
 }
 
 float Particula::getMass() const
 {
-	return this->mass;
+	return mass;
 }
 
 Vector3 Particula::getVelocity() const
 {
-	return this->speed;
+	return speed;
 }
 
 Vector3 Particula::getAcceleration() const
 {
-	return this->acceleration;
+	return acceleration;
 }
 
 float Particula::getDamping() const
 {
-	return this->damping;
+	return damping;
 }
 
 Particula::~Particula()
 {
-	DeregisterRenderItem(this->renderItem);
+	DeregisterRenderItem(renderItem);
 }

@@ -3,7 +3,6 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-#include "Particula.hpp"
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
@@ -26,7 +25,7 @@ PxPhysics*				gPhysics	= NULL;
 PxMaterial*				gMaterial	= NULL;
 
 PxPvd*                  gPvd        = NULL;
-std::vector<Proyectil*>	proyectiles[];
+std::vector<Proyectil*>	proyectiles;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
@@ -65,9 +64,10 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-	for (int i = 0; i < proyectiles->size(); i++)
+	for (int i = 0; i < proyectiles.size(); i++)
 	{
 		//Actualizacion de fisicas
+		proyectiles[i]->integrate(t);
 	}
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -78,9 +78,9 @@ void stepPhysics(bool interactive, double t)
 void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
-	for (int i = 0; i < proyectiles->size(); i++)
+	for (int i = 0; i < proyectiles.size(); i++)
 	{
-		
+		delete proyectiles[i];
 		//Borrado
 	}
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -110,10 +110,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Camera* cam = GetCamera();
 		Vector3 dir = cam->getDir();
 		Vector3 pos = cam->getTransform().p;
-		//int offset = 5;
-		//
-		//pos.z += offset;
-		proyectiles->push_back(new Proyectil(pos, dir.getNormalized(), { 0.0,0,9.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.0)), Vector4(1, 0, 1, 1)),TANK));
+		proyectiles.push_back(new Proyectil(pos, dir.getNormalized(), { 0.0,0,9.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.0)), Vector4(1, 0, 1, 1)),TANK));
 		break;
 	}
 	default:
