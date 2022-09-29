@@ -26,6 +26,7 @@ PxMaterial*				gMaterial	= NULL;
 
 PxPvd*                  gPvd        = NULL;
 std::vector<Proyectil*>	proyectiles;
+Particula*				diana		=NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
@@ -54,6 +55,14 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+
+	Camera* cam = GetCamera();
+	Vector3 dir = cam->getDir();
+	Vector3 pos = cam->getTransform().p;
+	Vector3 dir2{ 0,0,0 };
+	Vector3 pos2 = pos;
+	pos2.z += 100;
+	diana = new Particula(pos+Vector3{-100,0,-100}, dir2, {0.0,0.0,0.0}, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{0.5,0.9,0.8,1});
 	//Creacion y init de escena
 	}
 
@@ -69,6 +78,7 @@ void stepPhysics(bool interactive, double t)
 		//Actualizacion de fisicas
 		proyectiles[i]->integrate(t);
 	}
+	diana->integrate(t);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 }
@@ -83,6 +93,7 @@ void cleanupPhysics(bool interactive)
 		delete proyectiles[i];
 		//Borrado
 	}
+	delete diana;
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
@@ -110,6 +121,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Camera* cam = GetCamera();
 		Vector3 dir = cam->getDir();
 		Vector3 pos = cam->getTransform().p;
+		Vector3 dir2{ 0,0,0 };
+		Vector3 pos2=pos;
+		pos2.z += 20;
 		proyectiles.push_back(new Proyectil(pos, dir.getNormalized(), { 0.0,0,9.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.0)), Vector4(1, 0, 1, 1)),TANK));
 		break;
 	}

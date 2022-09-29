@@ -13,6 +13,7 @@ public:
 	Vector3 speed;
 	Vector3 acceleration;
 
+
 	float mass, damping;
 	RenderItem* renderItem;
 
@@ -33,7 +34,7 @@ public:
 	Vector3 getAcceleration() const;
 	float getDamping() const;
 
-	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem);
+	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c);
 	//Particula();
 	~Particula();
 
@@ -41,7 +42,7 @@ public:
 	float acumulador;
 };
 
-Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri)
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 })
 {
 	position = PxTransform(p.x, p.y, p.z);
 	speed = initialSpeed;
@@ -51,7 +52,7 @@ Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float 
 
 	renderItem = ri;
 	renderItem->transform = &position;
-	renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
+	renderItem->color = c;
 
 	damping = d;   //Rozamiento entre 0 y 1
 }
@@ -60,10 +61,13 @@ Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float 
 
 inline void Particula::integrate(float deltaTime)
 {
+
+
 	position.p += (speed * deltaTime);
 	//this->speed += (this->acceleration * deltaTime);
 
-	this->speed = speed *powf(damping, deltaTime) + acceleration * deltaTime;
+	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
+
 }
 
 //Particula::Particula() 
