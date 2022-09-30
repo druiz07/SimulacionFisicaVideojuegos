@@ -23,6 +23,9 @@
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="Particula.hpp" />
     <ClInclude Include="Proyectil.hpp" />
+    <ClInclude Include="GeneradorSimple.hpp" />
+    <ClInclude Include="Gausiano.hpp" />
+    <ClInclude Include="SistemaParticulas.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

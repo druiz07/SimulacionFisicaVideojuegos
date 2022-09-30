@@ -262,11 +262,14 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="Gausiano.hpp" />
+    <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="Particula.hpp" />
     <ClInclude Include="Proyectil.hpp" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="SistemaParticulas.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
