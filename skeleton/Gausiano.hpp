@@ -46,7 +46,7 @@ std::list<Particula*>GeneradorGaussiano::generateParticles()noexcept
 		vel.y = vel.y * devvel.y + mediaVel.y;
 		vel.x = vel.z * devvel.z + mediaVel.z;
 
-		pAux.push_back(new Particula(pos, vel, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 }));
+		pAux.push_back(new Particula(pos, vel, { 0.0,-10.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 }));
 
 
 	}

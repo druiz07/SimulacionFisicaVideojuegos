@@ -117,14 +117,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	//case ' ':	break;
 	case 'T':
 	{
-		
+		/*
 		Camera* cam = GetCamera();
 		Vector3 dir = cam->getDir();
 		Vector3 pos = cam->getTransform().p;
 		Vector3 dir2{ 0,0,0 };
-		Vector3 pos2=pos;
-		pos2.z += 20;
-		proyectiles.push_back(new Proyectil(pos, dir.getNormalized(), { 0.0,0,9.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.0)), Vector4(1, 0, 1, 1)),TANK));
+		Vector3 pos2=pos;*/
 		break;
 	}
 	default:

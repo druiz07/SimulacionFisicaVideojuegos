@@ -12,6 +12,7 @@ public:
 	PxTransform position;
 	Vector3 speed;
 	Vector3 acceleration;
+	double timeAlive;  //Cuando se resta es -- a secas
 
 
 	float mass, damping;
@@ -26,7 +27,7 @@ public:
 	void setColor(Vector4 color);
 	void setSize(const float size);
 	void setColorShiftSpeed(const float shiftSpeed);
-	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri);
+	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri,double timeAlive);
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -34,15 +35,16 @@ public:
 	Vector3 getAcceleration() const;
 	float getDamping() const;
 
-	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c);
+	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c, double timeAlive);
 	//Particula();
 	~Particula();
 
 	void integrate(float deltaTime);
 	float acumulador;
+	//double timeAlive;
 };
 
-Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 })
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 },double tA=4000)
 {
 	position = PxTransform(p.x, p.y, p.z);
 	speed = initialSpeed;
@@ -69,16 +71,6 @@ inline void Particula::integrate(float deltaTime)
 	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
 
 }
-
-//Particula::Particula() 
-//{
-//	position = PxTransform(0, 0, 0);
-//	speed = { 1,0,0 };
-//	acceleration = { 0,0,0 };
-//	mass = 0;
-//	renderItem = new RenderItem(CreateShape(PxSphereGeometry(2.0)), &position, Vector4(1, 0, 1, 1));
-//	damping = 0;
-//}
 
 
 void Particula::setPosition(Vector3 p)
@@ -116,7 +108,7 @@ void Particula::setSize(const float size)
 	renderItem->shape = CreateShape(PxSphereGeometry(size));
 }
 
-inline void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri)
+inline void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri,double timeAlive)
 {
 	position = PxTransform(pos.x, pos.y, pos.z);
 	speed = initialSpeed;
