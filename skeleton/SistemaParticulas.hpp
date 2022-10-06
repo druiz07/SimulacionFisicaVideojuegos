@@ -45,12 +45,15 @@ void SistemaParticulas::update(double t)
 		auto it = particulasGen.begin();
 		for (auto a : particulasGen)
 		{
-			if (!checkPosAndTime(a->getPosition()))
+			/*if (!checkPosAndTime(a->getPosition())) //La particula podria devolver su tiempo de vida 
 			{
 				
 				it=particulasGen.erase(it);
 			}
-			else it++;
+			else*/ 
+			a->integrate(t);
+			it++;
+
 			
 		}
 	}

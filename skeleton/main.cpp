@@ -1,14 +1,16 @@
 #include <ctype.h>
-
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-#include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include <vector>
 #include "Proyectil.hpp"
 #include <iostream>
+#include "GeneradorSimple.hpp";
+class SistemaParticulas;
+class GeneradorGaussiano;
+
 using namespace std;
 
 
@@ -18,18 +20,19 @@ using namespace physx;
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
 
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics	= NULL;
+PxFoundation* gFoundation = NULL;
+PxPhysics* gPhysics = NULL;
 
 
-PxMaterial*				gMaterial	= NULL;
+PxMaterial* gMaterial = NULL;
 
-PxPvd*                  gPvd        = NULL;
+PxPvd* gPvd = NULL;
 std::vector<Proyectil*>	proyectiles;
-Particula*				diana		=NULL;
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene      = NULL;
+Particula* diana = NULL;
+PxDefaultCpuDispatcher* gDispatcher = NULL;
+PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
+SistemaParticulas* Psystem = NULL;
 
 
 // Initialize physics engine
@@ -41,9 +44,9 @@ void initPhysics(bool interactive)
 
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	gPvd->connect(*transport,PxPvdInstrumentationFlag::eALL);
+	gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
@@ -62,9 +65,12 @@ void initPhysics(bool interactive)
 	Vector3 dir2{ 0,0,0 };
 	Vector3 pos2 = pos;
 	pos2.z += 100;
-	diana = new Particula(pos+Vector3{-100,0,-100}, dir2, {0.0,0.0,0.0}, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{0.5,0.9,0.8,1});
+	diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 });
 	//Creacion y init de escena
-	}
+
+
+
+}
 
 
 // Function to configure what happens in each step of physics
@@ -98,23 +104,23 @@ void cleanupPhysics(bool interactive)
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
-	gPhysics->release();	
+	gPhysics->release();
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
-	
+
 	gFoundation->release();
-	}
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	switch(toupper(key))
+	switch (toupper(key))
 	{
-	//case 'B': break;
-	//case ' ':	break;
+		//case 'B': break;
+		//case ' ':	break;
 	case 'T':
 	{
 		/*
@@ -137,7 +143,19 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 }
 
 
-int main(int, const char*const*)
+void creaSistema(char option)
+{
+	switch (option)
+	{
+	case 'G'://Generador gaussiano
+		GeneradorGaussiano * gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,0,0 }, "Gaussiano1");
+		Psystem->addGenerator((GeneradorSimple*)gGauss);
+
+	default:
+		break;
+	}
+}
+int main(int, const char* const*)
 {
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
@@ -145,10 +163,10 @@ int main(int, const char*const*)
 #else
 	static const PxU32 frameCount = 100;
 	initPhysics(false);
-	for(PxU32 i=0; i<frameCount; i++)
+	for (PxU32 i = 0; i < frameCount; i++)
 		stepPhysics(false);
 	cleanupPhysics(false);
 #endif
 
 	return 0;
-}
+	}

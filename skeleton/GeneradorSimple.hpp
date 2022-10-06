@@ -1,6 +1,5 @@
 #include "Particula.hpp"
 #include <list>
-#include <string>
 
 class GeneradorSimple
 {
