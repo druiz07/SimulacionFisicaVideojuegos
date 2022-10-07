@@ -39,7 +39,7 @@ public:
 	//Particula();
 	~Particula();
 
-	void integrate(float deltaTime);
+	bool integrate(float deltaTime);
 	float acumulador;
 	//double timeAlive;
 };
@@ -61,15 +61,16 @@ Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float 
 
 
 
-inline void Particula::integrate(float deltaTime)
+inline bool Particula::integrate(float deltaTime)
 {
 
-
+	timeAlive--;
+	if (timeAlive == 0)return false;
 	position.p += (speed * deltaTime);
 	//this->speed += (this->acceleration * deltaTime);
 
 	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
-
+	return true;
 }
 
 

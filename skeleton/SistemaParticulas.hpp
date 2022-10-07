@@ -41,17 +41,11 @@ void SistemaParticulas::update(double t)
 {
 	for (auto i : generadores)
 	{
-		particulasGen = i->generateParticles();//Obrtenemos la lista de particulas
+		particulasGen = i->generateParticles();//Obrtenemos la lista de particulas que se generan en cada iteracion
 		auto it = particulasGen.begin();
 		for (auto a : particulasGen)
-		{
-			/*if (!checkPosAndTime(a->getPosition())) //La particula podria devolver su tiempo de vida 
-			{
-				
-				it=particulasGen.erase(it);
-			}
-			else*/ 
-			a->integrate(t);
+		{ 
+			if(!a->integrate(t))it=particulasGen.erase(it);
 			it++;
 
 			

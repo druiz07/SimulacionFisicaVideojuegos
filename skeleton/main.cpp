@@ -2,7 +2,6 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-#include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include <vector>
 #include "Proyectil.hpp"
@@ -12,9 +11,6 @@ class SistemaParticulas;
 class GeneradorGaussiano;
 
 using namespace std;
-
-
-
 using namespace physx;
 
 PxDefaultAllocator		gAllocator;
@@ -119,16 +115,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch (toupper(key))
 	{
-		//case 'B': break;
-		//case ' ':	break;
 	case 'T':
 	{
-		/*
-		Camera* cam = GetCamera();
-		Vector3 dir = cam->getDir();
-		Vector3 pos = cam->getTransform().p;
-		Vector3 dir2{ 0,0,0 };
-		Vector3 pos2=pos;*/
 		break;
 	}
 	default:
@@ -148,8 +136,8 @@ void creaSistema(char option)
 	switch (option)
 	{
 	case 'G'://Generador gaussiano
-		GeneradorGaussiano * gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,0,0 }, "Gaussiano1");
-		Psystem->addGenerator((GeneradorSimple*)gGauss);
+		/*GeneradorGaussiano * gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,0,0 }, "Gaussiano1");
+		Psystem->addGenerator((GeneradorSimple*)gGauss);*/
 
 	default:
 		break;
