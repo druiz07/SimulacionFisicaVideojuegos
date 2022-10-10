@@ -4,12 +4,10 @@
 #include <vector>
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include <vector>
-#include "Proyectil.hpp"
 #include <iostream>
-#include "GeneradorSimple.hpp";
-class SistemaParticulas;
-class GeneradorGaussiano;
+#include "Gausiano.hpp"
+#include "SistemaParticulas.hpp"
+
 
 using namespace std;
 
@@ -68,7 +66,8 @@ void initPhysics(bool interactive)
 	diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 });
 	//Creacion y init de escena
 
-
+	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,5,5 }, "Gaussiano1", { 10,0,0 }, { 0,30,0 });
+	Psystem = new SistemaParticulas({ 0,0,0 }, { 0,0,0 }, gGauss);
 
 }
 
@@ -79,11 +78,12 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-	for (int i = 0; i < proyectiles.size(); i++)
-	{
-		//Actualizacion de fisicas
-		proyectiles[i]->integrate(t);
-	}
+	//for (int i = 0; i < proyectiles.size(); i++)
+	//{
+	//	//Actualizacion de fisicas
+	//	proyectiles[i]->integrate(t);
+	//}
+	Psystem->update(t);
 	diana->integrate(t);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -143,18 +143,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 }
 
 
-void creaSistema(char option)
-{
-	switch (option)
-	{
-	case 'G'://Generador gaussiano
-		GeneradorGaussiano * gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,0,0 }, "Gaussiano1");
-		Psystem->addGenerator((GeneradorSimple*)gGauss);
-
-	default:
-		break;
-	}
-}
 int main(int, const char* const*)
 {
 #ifndef OFFLINE_EXECUTION 
@@ -169,4 +157,4 @@ int main(int, const char* const*)
 #endif
 
 	return 0;
-	}
+}

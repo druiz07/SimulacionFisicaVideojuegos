@@ -13,6 +13,7 @@ public:
 	Vector3 speed;
 	Vector3 acceleration;
 	double timeAlive;  //Cuando se resta es -- a secas
+	bool isAlive_;
 
 
 	float mass, damping;
@@ -27,7 +28,8 @@ public:
 	void setColor(Vector4 color);
 	void setSize(const float size);
 	void setColorShiftSpeed(const float shiftSpeed);
-	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri,double timeAlive);
+	bool isAlive();
+	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive);
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -44,18 +46,18 @@ public:
 	//double timeAlive;
 };
 
-Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 },double tA=4000)
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5)
 {
 	position = PxTransform(p.x, p.y, p.z);
 	speed = initialSpeed;
 	acceleration = a;
+	isAlive_ = true;
 
-	//this->mass = m;
 
 	renderItem = ri;
 	renderItem->transform = &position;
 	renderItem->color = c;
-
+	timeAlive = tA;
 	damping = d;   //Rozamiento entre 0 y 1
 }
 
@@ -65,8 +67,10 @@ inline void Particula::integrate(float deltaTime)
 {
 
 
+	timeAlive -= deltaTime;
+	if (timeAlive < 0)isAlive_ = false;
+		
 	position.p += (speed * deltaTime);
-	//this->speed += (this->acceleration * deltaTime);
 
 	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
 
@@ -108,7 +112,7 @@ void Particula::setSize(const float size)
 	renderItem->shape = CreateShape(PxSphereGeometry(size));
 }
 
-inline void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri,double timeAlive)
+void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive)
 {
 	position = PxTransform(pos.x, pos.y, pos.z);
 	speed = initialSpeed;
@@ -152,4 +156,8 @@ float Particula::getDamping() const
 Particula::~Particula()
 {
 	DeregisterRenderItem(renderItem);
+}
+bool Particula::isAlive()
+{
+	return isAlive_;
 }
