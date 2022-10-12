@@ -63,10 +63,10 @@ void initPhysics(bool interactive)
 	Vector3 dir2{ 0,0,0 };
 	Vector3 pos2 = pos;
 	pos2.z += 100;
-	diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 });
+	//diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 },5);
 	//Creacion y init de escena
 
-	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0,0,0 }, { 5,5,5 }, "Gaussiano1", { 10,0,0 }, { 0,30,0 });
+	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 5,10,0 }, { 0.4,0.8,0.4,1 },1,4);
 	Psystem = new SistemaParticulas({ 0,0,0 }, { 0,0,0 }, gGauss);
 
 }
@@ -84,7 +84,7 @@ void stepPhysics(bool interactive, double t)
 	//	proyectiles[i]->integrate(t);
 	//}
 	Psystem->update(t);
-	diana->integrate(t);
+	//diana->integrate(t);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 }

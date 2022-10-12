@@ -5,6 +5,7 @@ public:
 
 	SistemaParticulas(Vector3 maxpos, Vector3 minpos, GeneradorSimple* g);
 	void update(double t);
+	void addGen(GeneradorSimple* g);
 
 
 
@@ -39,11 +40,12 @@ void SistemaParticulas::update(double t)
 	list<Particula*>::iterator it = particulasGen.begin();
 	while (it != particulasGen.end())
 	{
-		(*it)->integrate(t);
+		
 		if (*it != NULL) {
-
+			(*it)->integrate(t);
 			if (!(*it)->isAlive())
 			{
+				delete *it;
 				it = particulasGen.erase(it);
 			}
 			else it++;
@@ -51,5 +53,9 @@ void SistemaParticulas::update(double t)
 	}
 
 }
+void SistemaParticulas::addGen(GeneradorSimple* g)
+{
 
+	generadores.push_back(g);
+}
 

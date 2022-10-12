@@ -12,6 +12,7 @@ public:
 	PxTransform position;
 	Vector3 speed;
 	Vector3 acceleration;
+
 	double timeAlive;  //Cuando se resta es -- a secas
 	bool isAlive_;
 
@@ -19,7 +20,7 @@ public:
 	float mass, damping;
 	RenderItem* renderItem;
 
-	Particula() noexcept;
+	Particula() noexcept {};
 	void setPosition(Vector3 position);
 	void setMass(float mass);
 	void setVelocity(Vector3 s);
@@ -27,9 +28,9 @@ public:
 	void setDamping(float d);
 	void setColor(Vector4 color);
 	void setSize(const float size);
-	void setColorShiftSpeed(const float shiftSpeed);
+
 	bool isAlive();
-	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive);
+	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive, Vector4 color);
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -69,7 +70,7 @@ inline void Particula::integrate(float deltaTime)
 
 	timeAlive -= deltaTime;
 	if (timeAlive < 0)isAlive_ = false;
-		
+
 	position.p += (speed * deltaTime);
 
 	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
@@ -112,7 +113,7 @@ void Particula::setSize(const float size)
 	renderItem->shape = CreateShape(PxSphereGeometry(size));
 }
 
-void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive)
+void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double ta, Vector4 c = { 0.4,0.3,0.4,1 })
 {
 	position = PxTransform(pos.x, pos.y, pos.z);
 	speed = initialSpeed;
@@ -122,7 +123,8 @@ void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float 
 
 	renderItem = ri;
 	renderItem->transform = &position;
-	renderItem->color = Vector4{ 0.4,0.3,0.4,1 };
+	renderItem->color = c;
+	timeAlive = ta;
 
 	damping = d;   //Rozamiento entre 0 y 1
 }

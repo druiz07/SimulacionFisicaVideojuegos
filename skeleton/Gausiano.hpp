@@ -6,7 +6,7 @@ class GeneradorGaussiano: public GeneradorSimple
 {
 
 public:
-	GeneradorGaussiano(Vector3 devpos, Vector3 devvel, std::string n,Vector3 mp, Vector3 mv);
+	GeneradorGaussiano(Vector3 devpos, Vector3 devvel, std::string n,Vector3 mp, Vector3 mv,Vector4 pc,int nPart,int tA);
 	list<Particula*> generateParticles() override;
 	~GeneradorGaussiano();
 
@@ -14,19 +14,25 @@ protected:
 
 	Vector3 devpos;
 	Vector3 devvel;
+	Vector4 particlecolor;
 	std::mt19937 e2;
-	int nPart = 50;
+	int nPart;
+	float gravity = -10.0;
+	int timeAlive;
 
 	std::normal_distribution<double>d{ 0,1 }; //Multiplicado por la varianza y sumas la media 
 
 
 };
-GeneradorGaussiano::GeneradorGaussiano(Vector3 dp, Vector3 dv,std::string n,Vector3 mp, Vector3 mv):GeneradorSimple(n)
+GeneradorGaussiano::GeneradorGaussiano(Vector3 dp, Vector3 dv,std::string n,Vector3 mp, Vector3 mv,Vector4 pc,int nP,int tA):GeneradorSimple(n)
 {
 	devpos = dp;
 	devvel = dv;
 	mediaPos = mp;
 	mediaVel = mv;
+	particlecolor = pc;
+	nPart = nP;
+	timeAlive = tA;
 	std::random_device r{};
 	e2 = std::mt19937(r());
 }
@@ -49,8 +55,10 @@ list<Particula*>GeneradorGaussiano::generateParticles()
 		pos.y = pos.y * devpos.y + mediaPos.y;
 		pos.x = pos.z * devpos.z + mediaPos.z;
 
-		pAux.push_back(new Particula(pos, vel, { 0.0,-10.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 }));
-
+		auto p = new Particula();
+		p->setParticle(pos, vel, { 0.0,gravity,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), timeAlive, particlecolor);
+		pAux.push_back(p);
+		
 
 	}
 	return pAux;
