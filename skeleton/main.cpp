@@ -66,9 +66,10 @@ void initPhysics(bool interactive)
 	//diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 },5);
 	//Creacion y init de escena
 
-	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 5,10,0 }, { 0.4,0.8,0.4,1 },1,4);
+	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 },1,6);
+	GeneradorGaussiano* gGauss2 = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,10 }, { 2,25,0 }, { 0.5,0.2,0.7,1 }, 1, 6);
 	Psystem = new SistemaParticulas({ 0,0,0 }, { 0,0,0 }, gGauss);
-
+	Psystem->addGen(gGauss2);
 }
 
 

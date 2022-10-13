@@ -262,6 +262,7 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="Firework.hpp" />
     <ClInclude Include="Gausiano.hpp" />
     <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="Particula.hpp" />

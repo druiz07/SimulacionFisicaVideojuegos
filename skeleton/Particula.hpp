@@ -28,6 +28,7 @@ public:
 	void setDamping(float d);
 	void setColor(Vector4 color);
 	void setSize(const float size);
+	virtual Particula* clone()  const { return nullptr; };
 
 	bool isAlive();
 	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive, Vector4 color);
