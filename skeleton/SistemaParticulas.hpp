@@ -43,8 +43,11 @@ void SistemaParticulas::update(double t)
 		
 		if (*it != NULL) {
 			(*it)->integrate(t);
-			if (!(*it)->isAlive())
+			if (!(*it)->isAlive()||(*it)->checkSpace())
 			{
+
+				//Insert de la lista 
+				//Dinamic cast a firework
 				delete *it;
 				it = particulasGen.erase(it);
 			}

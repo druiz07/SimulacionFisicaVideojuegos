@@ -12,6 +12,7 @@ public:
 	PxTransform position;
 	Vector3 speed;
 	Vector3 acceleration;
+	Vector3 actionSpace;
 
 	double timeAlive;  //Cuando se resta es -- a secas
 	bool isAlive_;
@@ -28,6 +29,7 @@ public:
 	void setDamping(float d);
 	void setColor(Vector4 color);
 	void setSize(const float size);
+	bool checkSpace();
 	virtual Particula* clone()  const { return nullptr; };
 
 	bool isAlive();
@@ -37,9 +39,10 @@ public:
 	float getMass() const;
 	Vector3 getVelocity() const;
 	Vector3 getAcceleration() const;
+	
 	float getDamping() const;
 
-	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c, double timeAlive);
+	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c, double timeAlive,Vector3 posSpace);
 	//Particula();
 	~Particula();
 
@@ -48,13 +51,13 @@ public:
 	//double timeAlive;
 };
 
-Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5)
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5,Vector3 posSpace)
 {
 	position = PxTransform(p.x, p.y, p.z);
 	speed = initialSpeed;
 	acceleration = a;
 	isAlive_ = true;
-
+	actionSpace = posSpace;
 
 	renderItem = ri;
 	renderItem->transform = &position;
@@ -112,6 +115,14 @@ void Particula::setColor(Vector4 color)
 void Particula::setSize(const float size)
 {
 	renderItem->shape = CreateShape(PxSphereGeometry(size));
+}
+
+inline bool Particula::checkSpace()
+{
+	if (position.p.x > actionSpace.x || position.p.y > actionSpace.y || position.p.z > actionSpace.z)return false;
+	else if (position.p.x < -actionSpace.x || position.p.y < -actionSpace.y || position.p.z < -actionSpace.z)return false;;
+	return true;
+
 }
 
 void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double ta, Vector4 c = { 0.4,0.3,0.4,1 })

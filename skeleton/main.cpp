@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Gausiano.hpp"
 #include "SistemaParticulas.hpp"
+#include "Uniforme.hpp"
 
 
 using namespace std;
@@ -66,10 +67,10 @@ void initPhysics(bool interactive)
 	//diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 },5);
 	//Creacion y init de escena
 
-	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 },1,6);
-	GeneradorGaussiano* gGauss2 = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,10 }, { 2,25,0 }, { 0.5,0.2,0.7,1 }, 1, 6);
+	GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
+	Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6);
 	Psystem = new SistemaParticulas({ 0,0,0 }, { 0,0,0 }, gGauss);
-	Psystem->addGen(gGauss2);
+	Psystem->addGen(uniform);
 }
 
 
