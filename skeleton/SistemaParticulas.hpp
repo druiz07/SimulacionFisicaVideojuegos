@@ -43,7 +43,7 @@ void SistemaParticulas::update(double t)
 		
 		if (*it != NULL) {
 			(*it)->integrate(t);
-			if (!(*it)->isAlive()||(*it)->checkSpace())
+			if (!(*it)->isAlive()||!(*it)->checkSpace())
 			{
 
 				//Insert de la lista 

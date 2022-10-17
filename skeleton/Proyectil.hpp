@@ -3,11 +3,11 @@ enum tipoProyectil { PISTOL, ARTILLERY, FIREBALL, TANK, LASER };
 class Proyectil :public Particula
 {
 public:
-	Proyectil(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, tipoProyectil currentShotType, double tA);
+	Proyectil(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, tipoProyectil currentShotType, double tA, Vector3 pS);
 	
 };
-
-Proyectil::Proyectil(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, tipoProyectil currentShotType, double tA):Particula(p, initialSpeed, a, m, d, ri)
+                           
+Proyectil::Proyectil(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, tipoProyectil currentShotType, double tA,Vector3 pS) :Particula(p, initialSpeed, a, m, d, ri, pS,{ 0.4,0.3,0.4,1 },tA)
 {
 	
 	switch (currentShotType)

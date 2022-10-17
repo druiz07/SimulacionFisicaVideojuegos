@@ -33,7 +33,7 @@ public:
 	virtual Particula* clone()  const { return nullptr; };
 
 	bool isAlive();
-	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double timeAlive, Vector4 color);
+	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace ,double timeAlive, Vector4 color);
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -42,7 +42,7 @@ public:
 	
 	float getDamping() const;
 
-	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector4 c, double timeAlive,Vector3 posSpace);
+	Particula(Vector3 position, Vector3 initialSpeed, Vector3 acceleration, float mass, float damping, RenderItem* renderItem, Vector3 posSpace,Vector4 c, double timeAliv);
 	//Particula();
 	~Particula();
 
@@ -51,7 +51,7 @@ public:
 	//double timeAlive;
 };
 
-Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5,Vector3 posSpace)
+Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace ,Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5)
 {
 	position = PxTransform(p.x, p.y, p.z);
 	speed = initialSpeed;
@@ -125,7 +125,7 @@ inline bool Particula::checkSpace()
 
 }
 
-void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, double ta, Vector4 c = { 0.4,0.3,0.4,1 })
+void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, double ta, Vector4 c = { 0.4,0.3,0.4,1 })
 {
 	position = PxTransform(pos.x, pos.y, pos.z);
 	speed = initialSpeed;
@@ -137,6 +137,7 @@ void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float 
 	renderItem->transform = &position;
 	renderItem->color = c;
 	timeAlive = ta;
+	actionSpace = posSpace;
 
 	damping = d;   //Rozamiento entre 0 y 1
 }
