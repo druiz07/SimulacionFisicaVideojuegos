@@ -7,7 +7,7 @@ class GeneradorGaussiano: public GeneradorSimple
 
 public:
 	GeneradorGaussiano(Vector3 devpos, Vector3 devvel, std::string n,Vector3 mp, Vector3 mv,Vector4 pc,int nPart,int tA);
-	list<Particula*> generateParticles() override;
+	list<Particula*> generateParticles() ;
 	~GeneradorGaussiano();
 
 protected:
