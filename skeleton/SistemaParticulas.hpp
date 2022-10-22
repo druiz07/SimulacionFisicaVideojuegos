@@ -73,7 +73,7 @@ inline void SistemaParticulas::generateFireworkSistem()
 	//new RenderItem(CreateShape(PxSphereGeometry(sizeF)), Vector4(1, 0, 1, 1)), sizeF,nGeneraciones-1, Vector4{ 0.5,0.9,0.8,1 }, nPart);
 
 
-	particulasGen.push_back(new Firework(Vector3{ 0,0,-15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 3));
+	particulasGen.push_back(new Firework(Vector3{ 0,0,-15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 7));
 	
 	//particulasGen.push_back(new Firework(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 },1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1.5)), Vector4(1, 0, 1, 1)), 1.1,3, Vector4{ 0.5,0.9,0.8,1 }, 3,9));
 
