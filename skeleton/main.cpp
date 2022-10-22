@@ -69,8 +69,8 @@ void initPhysics(bool interactive)
 
 	//GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
 	Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6,50,{15,70,10});
-	Psystem = new SistemaParticulas({ 0,0,0 }, { 0,0,0 }, uniform);
-	//Psystem->addGen(uniform);
+	Psystem = new SistemaParticulas();
+	Psystem->addGen(uniform);
 }
 
 

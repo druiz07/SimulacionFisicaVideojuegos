@@ -4,7 +4,7 @@ class SistemaParticulas
 {
 public:
 
-	SistemaParticulas(Vector3 maxpos, Vector3 minpos, GeneradorSimple* g);
+	SistemaParticulas();
 	void update(double t);
 	void addGen(GeneradorSimple* g);
 
@@ -19,17 +19,9 @@ protected:
 	std::list<GeneradorSimple*>generadores;
 
 };
-SistemaParticulas::SistemaParticulas(Vector3 maxpos, Vector3 minpos, GeneradorSimple* g)
+SistemaParticulas::SistemaParticulas()
 {
-
-	//fireworkGen=
-
-	generadores.push_back(g);
 	generateFireworkSistem();
-	//Particula* p = fireworksPool.front()->clone();
-
-	particulasGen.push_back(p);
-
 }
 void SistemaParticulas::update(double t)
 {
@@ -57,10 +49,13 @@ void SistemaParticulas::update(double t)
 				auto cast = dynamic_cast<Firework*>(*it);
 				if (cast != nullptr) {
 					auto a= cast->explode();
-					particulasGen.insert(particulasGen.begin(),a.begin(), a.end());
+					if(a.size()>0)particulasGen.insert(particulasGen.begin(), a.begin(), a.end());
+					a.clear();
 				}
-				delete *it;
-				it = particulasGen.erase(it);
+				if (*it != nullptr) {
+					delete* it;
+					it = particulasGen.erase(it);
+				}
 			}
 			else it++;
 		}
@@ -75,14 +70,12 @@ void SistemaParticulas::addGen(GeneradorSimple* g)
 
 inline void SistemaParticulas::generateFireworkSistem()
 {
+	//new RenderItem(CreateShape(PxSphereGeometry(sizeF)), Vector4(1, 0, 1, 1)), sizeF,nGeneraciones-1, Vector4{ 0.5,0.9,0.8,1 }, nPart);
 
 
-	std::shared_ptr<GeneradorGaussiano>gen1(new GeneradorGaussiano({0.2,0.1,0.1}, {.1,.1,.1}, "Gaussiano1", {25,40,0}, {2,25,0}, {0.1,0.2,0.7,1}, 1, 6));//new
-	fireworksPool.push_back(new Firework(Vector3{ 0,0,0 }, { 10,10,10 }, Vector3{ 2,2,2 }, 2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), { gen1 }));
-
-
-
-
+	particulasGen.push_back(new Firework(Vector3{ 0,0,-15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 3));
+	
+	//particulasGen.push_back(new Firework(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 },1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1.5)), Vector4(1, 0, 1, 1)), 1.1,3, Vector4{ 0.5,0.9,0.8,1 }, 3,9));
 
 }
 

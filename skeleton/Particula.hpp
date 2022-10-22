@@ -125,7 +125,7 @@ inline bool Particula::checkSpace()
 
 }
 
-inline Particula* Particula::clone(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5)
+inline Particula* Particula::clone(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, Vector4 c, double tA )
 {
 	return new Particula(p,  initialSpeed,  a,  m,  d,   ri,  posSpace,  c = { 0.4,0.3,0.4,1 },  tA = 5);
 }
