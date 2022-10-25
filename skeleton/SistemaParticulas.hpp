@@ -10,7 +10,7 @@ public:
 
 	GeneradorGaussiano* fireworkGen;
 	std::vector<Firework*>fireworksPool;
-	void generateFireworkSistem();
+	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, bool circulo = false);
 	void shootFirework();
 
 
@@ -21,7 +21,7 @@ protected:
 };
 SistemaParticulas::SistemaParticulas()
 {
-	generateFireworkSistem();
+	
 }
 void SistemaParticulas::update(double t)
 {
@@ -68,14 +68,9 @@ void SistemaParticulas::addGen(GeneradorSimple* g)
 	generadores.push_back(g);
 }
 
-inline void SistemaParticulas::generateFireworkSistem()
+inline void SistemaParticulas::generateFireworkSistem(Vector3 pos,Vector3 vel,Vector3 a,float m, float d, RenderItem* r,float sPart,int nD,Vector4 c,double tA, int nPG,bool circulo)
 {
-	//new RenderItem(CreateShape(PxSphereGeometry(sizeF)), Vector4(1, 0, 1, 1)), sizeF,nGeneraciones-1, Vector4{ 0.5,0.9,0.8,1 }, nPart);
-
-
-	particulasGen.push_back(new Firework(Vector3{ 0,0,-15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 7));
+	particulasGen.push_back(new Firework(pos, vel,a, m, d, r, sPart, nD,c, tA, nPG,circulo));
 	
-	//particulasGen.push_back(new Firework(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 },1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1.5)), Vector4(1, 0, 1, 1)), 1.1,3, Vector4{ 0.5,0.9,0.8,1 }, 3,9));
-
 }
 

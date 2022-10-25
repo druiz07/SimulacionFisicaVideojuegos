@@ -67,10 +67,12 @@ void initPhysics(bool interactive)
 	//diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 },5);
 	//Creacion y init de escena
 
-	//GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
-	Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6,50,{15,70,10});
+	 //GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
+	 Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6,50,{15,70,10});
+	 Uniforme* uniform2 = new Uniforme({ 0.5,0.2,0.1 }, { .1,.1,.1 }, { 20,10,0 }, { 20,20,2 }, "Uniforme2", { 1,1,10 }, { 5,20,0 }, { 0.2,0.7,0.7,1 }, 1, 6, 50, { 15,70,10 });
 	Psystem = new SistemaParticulas();
-	Psystem->addGen(uniform);
+	Psystem->addGen(uniform); 
+	Psystem->addGen(uniform2);
 }
 
 
@@ -131,7 +133,19 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Vector3 pos = cam->getTransform().p;
 		Vector3 dir2{ 0,0,0 };
 		Vector3 pos2=pos;*/
+
+		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 10);
+		Psystem->generateFireworkSistem(Vector3{ 0,0,25 }, { 0,15,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2.5)), Vector4(1, 0, 1, 1)), 1.5, 4, Vector4{ 0.7,0.9,0.1,1 }, 4, 10);
+
+		
+
+
 		break;
+	}
+	case 'H':
+	{
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,true);
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,40,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.9,0.2,1 }, 5, 20, true);
 	}
 	default:
 		break;
