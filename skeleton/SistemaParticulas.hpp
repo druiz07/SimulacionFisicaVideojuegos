@@ -10,7 +10,7 @@ public:
 
 	GeneradorGaussiano* fireworkGen;
 	std::vector<Firework*>fireworksPool;
-	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, bool circulo = false);
+	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo ="nada");
 	void shootFirework();
 
 
@@ -68,7 +68,7 @@ void SistemaParticulas::addGen(GeneradorSimple* g)
 	generadores.push_back(g);
 }
 
-inline void SistemaParticulas::generateFireworkSistem(Vector3 pos,Vector3 vel,Vector3 a,float m, float d, RenderItem* r,float sPart,int nD,Vector4 c,double tA, int nPG,bool circulo)
+inline void SistemaParticulas::generateFireworkSistem(Vector3 pos,Vector3 vel,Vector3 a,float m, float d, RenderItem* r,float sPart,int nD,Vector4 c,double tA, int nPG,string circulo)
 {
 	particulasGen.push_back(new Firework(pos, vel,a, m, d, r, sPart, nD,c, tA, nPG,circulo));
 	
