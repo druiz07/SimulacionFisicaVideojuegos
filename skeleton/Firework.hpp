@@ -1,6 +1,7 @@
 
 #include <list>
 #include <random>
+#include <math.h>
 class Firework :public Particula
 {
 
@@ -66,6 +67,13 @@ std::list<Particula*> Firework::explode()
 			{
 				dir2 = { float(physx::PxCos(angle) * radius),float(physx::PxSin(angle) * radius), float(physx::PxSin(angle) * radius) };
 				dir2 *= offsetCircle;
+				angle += 360 / nPart;
+
+			}
+			else if (circulo == "corasao")
+			{
+				dir2 = { 16.f * float(pow(physx::PxSin(angle),3)),13 * physx::PxCos(angle) - (5 * PxCos(2 * angle)) - (2 * PxCos(3 * angle)) - (PxCos(4 * angle)), 0 };
+				//dir2 *= offsetCircle;
 				angle += 360 / nPart;
 			}
 			else if(circulo=="explosion")

@@ -139,8 +139,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch (toupper(key))
 	{
-		//case 'B': break;
-		//case ' ':	break;
 		
 	case 'T':
 	{
@@ -154,22 +152,26 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 		createMainFloor();
 		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 10);
-		Psystem->generateFireworkSistem(Vector3{ 0,0,25 }, { 0,15,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2.5)), Vector4(1, 0, 1, 1)), 1.5, 4, Vector4{ 0.7,0.9,0.1,1 }, 4, 10);
-
-		
-
-		
+		Psystem->generateFireworkSistem(Vector3{ 0,0,25 }, { 0,15,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2.5)), Vector4(1, 0, 1, 1)), 1.5, 4, Vector4{ 0.7,0.9,0.1,1 }, 4, 10);		
 		break;
 	}
 	case 'H':
 	{
 
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,"circulo");
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,"circulo3d");
 		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,40,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.9,0.2,1 }, 5, 20, "lineas");
+		break;
 	}
 	case'K':
 	{
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20, "parabola");
+	
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-5,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20, "circulo");
+		break;
+	}
+	case 'O':
+	{
+		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "corasao");
+		break;
 	}
 	default:
 		break;
