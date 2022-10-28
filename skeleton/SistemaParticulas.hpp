@@ -25,6 +25,8 @@ protected:
 SistemaParticulas::SistemaParticulas()
 {
 	g = new GravityForceGenerator({ 0,-10,0 });
+	Firework* p = new Firework(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
+	pfR.addRegistry(g,p);
 	
 }
 void SistemaParticulas::update(double t)
