@@ -1,3 +1,4 @@
+
 #include <ctype.h>
 #include <PxPhysicsAPI.h>
 
@@ -8,7 +9,8 @@
 #include "Gausiano.hpp"
 #include "SistemaParticulas.hpp"
 #include "Uniforme.hpp"
-
+#include "ParticleForceRegistry.hpp";
+#include "GravityForceGenerator.hpp"
 
 using namespace std;
 
@@ -170,7 +172,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case 'O':
 	{
-		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "corasao");
+		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
 		break;
 	}
 	default:

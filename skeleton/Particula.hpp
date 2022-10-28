@@ -1,3 +1,4 @@
+#pragma once
 #include "RenderUtils.hpp"
 #include "core.hpp"
 #include <iostream>
@@ -13,6 +14,10 @@ public:
 	Vector3 speed;
 	Vector3 acceleration;
 	Vector3 actionSpace;
+	Vector3 force;
+	float inverse_mass;
+
+
 
 	double timeAlive;  //Cuando se resta es -- a secas
 	bool isAlive_;
@@ -31,9 +36,12 @@ public:
 	void setSize(const float size);
 	bool checkSpace();
 	virtual Particula* clone(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, Vector4 c = { 0.4,0.3,0.4,1 }, double tA = 5);
+	void clearForce();
+	void addForce(const Vector3& f);
 
 	bool isAlive();
 	void setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, double timeAlive, Vector4 color);
+
 
 	Vector3 getPosition() const;
 	float getMass() const;
@@ -70,16 +78,23 @@ Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float 
 
 inline void Particula::integrate(float deltaTime)
 {
-
+	 inverse_mass = (1 / mass);
+	if (inverse_mass <= 0.0f) return;
 
 	timeAlive -= deltaTime;
 	if (timeAlive < 0)isAlive_ = false;
 
 	position.p += (speed * deltaTime);
-
-	this->speed = speed * powf(damping, deltaTime) + acceleration * deltaTime;
+	Vector3 totalAcceleration = acceleration;
+	totalAcceleration += force * inverse_mass; // calculate the reciprocal of the mass.;
+	speed += totalAcceleration * deltaTime;
+	speed *= powf(damping, deltaTime);
+	clearForce();
 
 }
+
+
+
 
 
 void Particula::setPosition(Vector3 p)
@@ -125,9 +140,9 @@ inline bool Particula::checkSpace()
 
 }
 
-inline Particula* Particula::clone(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, Vector4 c, double tA )
+inline Particula* Particula::clone(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, Vector4 c, double tA)
 {
-	return new Particula(p,  initialSpeed,  a,  m,  d,   ri,  posSpace,  c = { 0.4,0.3,0.4,1 },  tA = 5);
+	return new Particula(p, initialSpeed, a, m, d, ri, posSpace, c = { 0.4,0.3,0.4,1 }, tA = 5);
 }
 
 void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float m, float d, RenderItem* ri, Vector3 posSpace, double ta, Vector4 c = { 0.4,0.3,0.4,1 })
@@ -146,6 +161,19 @@ void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float 
 
 	damping = d;   //Rozamiento entre 0 y 1
 }
+
+void Particula::clearForce()
+{
+	force = Vector3(0);
+
+};
+void Particula::addForce(const Vector3& f)
+{
+
+	force += f;
+
+};
+
 
 
 Vector3 Particula::getPosition() const

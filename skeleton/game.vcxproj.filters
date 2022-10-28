@@ -28,6 +28,9 @@
     <ClInclude Include="SistemaParticulas.hpp" />
     <ClInclude Include="Firework.hpp" />
     <ClInclude Include="Uniforme.hpp" />
+    <ClInclude Include="ForceGenerator.hpp" />
+    <ClInclude Include="GravityForceGenerator.hpp" />
+    <ClInclude Include="ParticleForceRegistry.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

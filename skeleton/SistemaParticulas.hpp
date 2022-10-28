@@ -1,5 +1,7 @@
-
+#pragma once
 #include "Firework.hpp"
+#include "ParticleForceRegistry.hpp";
+#include "GravityForceGenerator.hpp"
 class SistemaParticulas
 {
 public:
@@ -17,10 +19,12 @@ public:
 protected:
 	std::list<Particula*>particulasGen;
 	std::list<GeneradorSimple*>generadores;
-
+	GravityForceGenerator* g;
+	ParticleForceRegistry pfR;
 };
 SistemaParticulas::SistemaParticulas()
 {
+	g = new GravityForceGenerator({ 0,-10,0 });
 	
 }
 void SistemaParticulas::update(double t)
@@ -36,7 +40,7 @@ void SistemaParticulas::update(double t)
 			}
 		}
 	}
-
+	pfR.updateForces(t);
 	list<Particula*>::iterator it = particulasGen.begin();
 	while (it != particulasGen.end())
 	{
