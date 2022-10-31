@@ -40,11 +40,11 @@ RenderItem* riFloor = NULL;
 void createbaseScene()
 {
 	//GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
-	Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6, 50, { 15,70,10 });
-	Uniforme* uniform2 = new Uniforme({ 0.5,0.2,0.1 }, { .1,.1,.1 }, { 40,10,0 }, { 20,20,2 }, "Uniforme2", { 1,1,10 }, { 5,20,0 }, { 0.2,0.7,0.7,1 }, 1, 6, 50, { 15,70,10 });
+	//Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6, 50, { 15,70,10 },800);
+	//Uniforme* uniform2 = new Uniforme({ 0.5,0.2,0.1 }, { .1,.1,.1 }, { 40,10,0 }, { 20,20,2 }, "Uniforme2", { 1,1,10 }, { 5,20,0 }, { 0.2,0.7,0.7,1 }, 1, 6, 50, { 15,70,10 },800);
 	Psystem = new SistemaParticulas();
-	Psystem->addGen(uniform);
-	Psystem->addGen(uniform2);
+	//Psystem->addGen(uniform);
+	//Psystem->addGen(uniform2);
 }
 
 
@@ -160,14 +160,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'H':
 	{
 
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,"circulo3d");
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,40,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.9,0.2,1 }, 5, 20, "lineas");
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 90, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,"circulo3d");
+		//Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,40,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.9,0.2,1 }, 5, 20, "lineas");
 		break;
 	}
 	case'K':
 	{
 	
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-5,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20, "circulo");
+		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-5,0 }, 30, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20, "circulo");
 		break;
 	}
 	case 'O':

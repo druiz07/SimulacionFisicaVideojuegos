@@ -126,7 +126,7 @@ std::list<Particula*> Firework::explode()
 				}
 			}
 			//Aprovechar la posicion de firework para que parta mas o menos desde ahi
-			Firework* p = new Firework(pos, dir2, { 0.5,0.5,0.5 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(sizeF)), Vector4(1, 0, 1, 1)), sizeF, nGeneraciones - 1, colorRand, tAlive / 1.25, nPart, circulo);
+			Firework* p = new Firework(pos, dir2, { 0.5,0.5,0.5 }, mass, 0.99, new RenderItem(CreateShape(PxSphereGeometry(sizeF)), Vector4(1, 0, 1, 1)), sizeF, nGeneraciones - 1, colorRand, tAlive / 1.25, nPart, circulo);
 			listExp.push_back(p);
 
 

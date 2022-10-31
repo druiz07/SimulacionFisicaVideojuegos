@@ -72,13 +72,17 @@ Particula::Particula(Vector3 p, Vector3 initialSpeed, Vector3 a, float m, float 
 	renderItem->color = c;
 	timeAlive = tA;
 	damping = d;   //Rozamiento entre 0 y 1
+	force = { 0,0,0 };
+	mass = m;
+	inverse_mass = (1 / mass);
+
 }
 
 
 
 inline void Particula::integrate(float deltaTime)
 {
-	 inverse_mass = (1 / mass);
+	
 	if (inverse_mass <= 0.0f) return;
 
 	timeAlive -= deltaTime;
@@ -151,7 +155,7 @@ void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float 
 	speed = initialSpeed;
 	acceleration = a;
 
-	//this->mass = m;
+	this->mass = m;
 
 	renderItem = ri;
 	renderItem->transform = &position;

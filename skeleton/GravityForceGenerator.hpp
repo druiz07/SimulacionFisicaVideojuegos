@@ -5,7 +5,7 @@ class GravityForceGenerator :public ForceGenerator
 {
 public:
 
-	GravityForceGenerator(const Vector3& g);
+	GravityForceGenerator(const Vector3& g) {};
 	virtual void updateForce(Particula* p, double delta);
 	inline void setGravity(Vector3 g) { gravity = g; };
 
@@ -14,7 +14,6 @@ protected:
 };
 void GravityForceGenerator::updateForce(Particula* p, double delta)
 {
-	if (fabs(p->inverse_mass) < 1e-10);
-	return;
+	if (fabs(p->inverse_mass) < 1e-10)return;
 	p->addForce(gravity * p->mass);
  }

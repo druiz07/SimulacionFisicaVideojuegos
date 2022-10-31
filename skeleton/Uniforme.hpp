@@ -6,7 +6,7 @@ class Uniforme : public GeneradorSimple
 {
 
 public:
-	Uniforme(Vector3 devvel, Vector3 dp, Vector3 pWidth, Vector3 velWidth, std::string n, Vector3 mp, Vector3 mv, Vector4 pc, int np, int tA,int p, Vector3 aSp);
+	Uniforme(Vector3 devvel, Vector3 dp, Vector3 pWidth, Vector3 velWidth, std::string n, Vector3 mp, Vector3 mv, Vector4 pc, int np, int tA,int p, Vector3 aSp,float );
 	list<Particula*> generateParticles() override;
 	bool checkSpace();
 	~Uniforme();
@@ -24,6 +24,7 @@ protected:
 	float gravity = -10.0;
 	int timeAlive;
 	int probability;
+	float mass;
 	
 
 	std::uniform_real_distribution<double>d{ 0,1 }; //Multiplicado por la varianza y sumas la media 
@@ -31,7 +32,7 @@ protected:
 
 };
 
-inline Uniforme::Uniforme(Vector3 dv, Vector3 dp, Vector3 pWidth, Vector3 velWidth,std::string n, Vector3 mp, Vector3 mv, Vector4 pc, int np, int tA,int p=50, Vector3 aSp={ 100,100,100 }):GeneradorSimple(n)
+inline Uniforme::Uniforme(Vector3 dv, Vector3 dp, Vector3 pWidth, Vector3 velWidth, std::string n, Vector3 mp, Vector3 mv, Vector4 pc, int np, int tA, int p = 50, Vector3 aSp = { 100,100,100 }, float m = 1) :GeneradorSimple(n)
 {
 	devpos = dp;
 	devvel = dv;
@@ -46,6 +47,7 @@ inline Uniforme::Uniforme(Vector3 dv, Vector3 dp, Vector3 pWidth, Vector3 velWid
 	e2 = std::mt19937(r());
 	probability = p;
 	aSpace = aSp;
+	mass = m;
 
 }
 list<Particula*>Uniforme::generateParticles()
@@ -70,7 +72,7 @@ list<Particula*>Uniforme::generateParticles()
 
 		auto p = new Particula();
 		
-		p->setParticle(pos_result, vel_result, { 0.0,0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), aSpace,timeAlive, particlecolor);
+		p->setParticle(pos_result, vel_result, { 0.0,0,0.0 }, mass, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), aSpace,timeAlive, particlecolor);
 		pAux.push_back(p);
 
 
