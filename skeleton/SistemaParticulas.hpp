@@ -2,6 +2,8 @@
 #include "Firework.hpp"
 #include "ParticleForceRegistry.hpp";
 #include "GravityForceGenerator.hpp"
+#include "Torbellino.h"
+
 class SistemaParticulas
 {
 public:
@@ -13,21 +15,25 @@ public:
 	GeneradorGaussiano* fireworkGen;
 	std::vector<Firework*>fireworksPool;
 	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo ="nada");
-	void shootFirework();
+	//void shootFirework();
 
 
 protected:
 	std::list<Particula*>particulasGen;
 	std::list<GeneradorSimple*>generadores;
+	Torbellino* PD;
 	GravityForceGenerator* g;
 	ParticleForceRegistry pfR;
 };
 SistemaParticulas::SistemaParticulas()
 {
-	g = new GravityForceGenerator({ 0,-10,0 });
-	g->setGravity({ 0,-200,0 });
-	Firework* p = new Firework(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
-	pfR.addRegistry(g,p);
+	PD = new Torbellino(1,0.01,1,{0,0,0});
+	//PD->setWindVel({ -10,0,0 });
+	g = new	GravityForceGenerator({ 0,-10,0 });
+	g->setGravity({ 0,-10,0 });
+	Firework* p = new Firework(Vector3{ 0,50,-0 }, { 10,0,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
+	pfR.addRegistry(PD,p);
+	pfR.addRegistry(g, p);
 	particulasGen.push_back(p);
 	
 }

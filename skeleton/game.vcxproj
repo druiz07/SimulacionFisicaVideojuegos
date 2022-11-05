@@ -255,9 +255,13 @@
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleDragGenerator.cpp" />
+    <ClCompile Include="Particula.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="Torbellino.cpp" />
+    <ClCompile Include="VientoGenerador.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
@@ -267,14 +271,17 @@
     <ClInclude Include="Gausiano.hpp" />
     <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="GravityForceGenerator.hpp" />
+    <ClInclude Include="ParticleDragGenerator.h" />
     <ClInclude Include="ParticleForceRegistry.hpp" />
-    <ClInclude Include="Particula.hpp" />
+    <ClInclude Include="Particula.h" />
     <ClInclude Include="Proyectil.hpp" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="SistemaParticulas.hpp" />
+    <ClInclude Include="Torbellino.h" />
     <ClInclude Include="Uniforme.hpp" />
+    <ClInclude Include="VientoGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

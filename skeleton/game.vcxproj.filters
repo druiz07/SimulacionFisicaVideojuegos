@@ -10,6 +10,10 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="ParticleDragGenerator.cpp" />
+    <ClCompile Include="Particula.cpp" />
+    <ClCompile Include="VientoGenerador.cpp" />
+    <ClCompile Include="Torbellino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -21,7 +25,7 @@
     </ClInclude>
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="callbacks.hpp" />
-    <ClInclude Include="Particula.hpp" />
+    <ClInclude Include="Particula.h" />
     <ClInclude Include="Proyectil.hpp" />
     <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="Gausiano.hpp" />
@@ -31,6 +35,9 @@
     <ClInclude Include="ForceGenerator.hpp" />
     <ClInclude Include="GravityForceGenerator.hpp" />
     <ClInclude Include="ParticleForceRegistry.hpp" />
+    <ClInclude Include="ParticleDragGenerator.h" />
+    <ClInclude Include="VientoGenerator.h" />
+    <ClInclude Include="Torbellino.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

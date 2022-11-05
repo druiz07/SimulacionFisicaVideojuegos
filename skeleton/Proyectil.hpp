@@ -1,4 +1,4 @@
-#include "Particula.hpp"
+#include "Particula.h"
 enum tipoProyectil { PISTOL, ARTILLERY, FIREBALL, TANK, LASER };
 class Proyectil :public Particula
 {
