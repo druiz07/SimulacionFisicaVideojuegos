@@ -29,11 +29,11 @@ SistemaParticulas::SistemaParticulas()
 {
 	PD = new Torbellino(1,0.01,1,{0,0,0});
 	//PD->setWindVel({ -10,0,0 });
-	g = new	GravityForceGenerator({ 0,-10,0 });
-	g->setGravity({ 0,-10,0 });
-	Firework* p = new Firework(Vector3{ 0,50,-0 }, { 10,0,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
+	//g = new	GravityForceGenerator({ 0,-10,0 });
+	//g->setGravity({ 0,-10,0 });
+	Firework* p = new Firework(Vector3{ 0,50,-0 }, { 10,0,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 20, 15, "lineas");
 	pfR.addRegistry(PD,p);
-	pfR.addRegistry(g, p);
+	//pfR.addRegistry(g, p);
 	particulasGen.push_back(p);
 	
 }

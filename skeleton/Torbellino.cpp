@@ -11,9 +11,9 @@ void Torbellino::updateForce(Particula* p, double t)
 
 
 	Vector3 tVel;
-	tVel.x = kF * (p->getPosition().x - centroTorbellino.x);
+	tVel.x = kF * (p->getPosition().z - centroTorbellino.z);
 	tVel.y = kF * (50-(p->getPosition().y - centroTorbellino.y));
-	tVel.z = 0;
+	tVel.z = p->getPosition().x- centroTorbellino.x;
 	Vector3 v = p->getVelocity() - tVel; //v seria -> getV- velViento , hacer que herede de la clase y un metodo para settear la velocidad , crear un genersdor con vientos 
 	
 	
