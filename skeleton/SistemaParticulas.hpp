@@ -2,7 +2,7 @@
 #include "Firework.hpp"
 #include "ParticleForceRegistry.hpp";
 #include "GravityForceGenerator.hpp"
-#include "Torbellino.h"
+#include "Explosion.h"
 
 class SistemaParticulas
 {
@@ -14,28 +14,31 @@ public:
 
 	GeneradorGaussiano* fireworkGen;
 	std::vector<Firework*>fireworksPool;
-	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo ="nada");
+	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo = "nada");
 	//void shootFirework();
 
 
 protected:
 	std::list<Particula*>particulasGen;
 	std::list<GeneradorSimple*>generadores;
-	Torbellino* PD;
+	ExplosionGenerator* eG;
 	GravityForceGenerator* g;
 	ParticleForceRegistry pfR;
 };
 SistemaParticulas::SistemaParticulas()
 {
-	PD = new Torbellino(1,0.01,1,{0,0,0});
-	//PD->setWindVel({ -10,0,0 });
-	//g = new	GravityForceGenerator({ 0,-10,0 });
-	//g->setGravity({ 0,-10,0 });
-	Firework* p = new Firework(Vector3{ 0,50,-0 }, { 10,0,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 20, 15, "lineas");
-	pfR.addRegistry(PD,p);
-	//pfR.addRegistry(g, p);
+	eG = new ExplosionGenerator();
+	eG->setctAnt(15, 3, { 10,0,0 }, 25);//intensidad 10 desde el 000 radio 10 y de tiempo 5
+
+	Particula* p = new Particula({ 5,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+
+	Particula* p2 = new Particula({ 7,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 4, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.8,0.5,0.2,1 }, 50);
+	pfR.addRegistry(eG, p);
+	pfR.addRegistry(eG, p2);
+
 	particulasGen.push_back(p);
-	
+	particulasGen.push_back(p2);
+
 }
 void SistemaParticulas::update(double t)
 {
@@ -54,16 +57,16 @@ void SistemaParticulas::update(double t)
 	list<Particula*>::iterator it = particulasGen.begin();
 	while (it != particulasGen.end())
 	{
-		
+
 		if (*it != NULL) {
 			(*it)->integrate(t);
-			if (!(*it)->isAlive()||!(*it)->checkSpace())
+			if (!(*it)->isAlive() || !(*it)->checkSpace())
 			{
 
 				auto cast = dynamic_cast<Firework*>(*it);
 				if (cast != nullptr) {
-					auto a= cast->explode();
-					if(a.size()>0)particulasGen.insert(particulasGen.begin(), a.begin(), a.end());
+					auto a = cast->explode();
+					if (a.size() > 0)particulasGen.insert(particulasGen.begin(), a.begin(), a.end());
 					a.clear();
 				}
 				if (*it != nullptr) {
@@ -82,9 +85,9 @@ void SistemaParticulas::addGen(GeneradorSimple* g)
 	generadores.push_back(g);
 }
 
-inline void SistemaParticulas::generateFireworkSistem(Vector3 pos,Vector3 vel,Vector3 a,float m, float d, RenderItem* r,float sPart,int nD,Vector4 c,double tA, int nPG,string circulo)
+inline void SistemaParticulas::generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo)
 {
-	particulasGen.push_back(new Firework(pos, vel,a, m, d, r, sPart, nD,c, tA, nPG,circulo));
-	
+	particulasGen.push_back(new Firework(pos, vel, a, m, d, r, sPart, nD, c, tA, nPG, circulo));
+
 }
 

@@ -14,6 +14,7 @@
     <ClCompile Include="Particula.cpp" />
     <ClCompile Include="VientoGenerador.cpp" />
     <ClCompile Include="Torbellino.cpp" />
+    <ClCompile Include="Exposion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="ParticleDragGenerator.h" />
     <ClInclude Include="VientoGenerator.h" />
     <ClInclude Include="Torbellino.h" />
+    <ClInclude Include="Explosion.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
