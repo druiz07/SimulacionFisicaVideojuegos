@@ -5,7 +5,6 @@ class ExplosionGenerator : public ForceGenerator
 public:
 
 	ExplosionGenerator() {};
-	ExplosionGenerator(const float k1, const float k2) :_k1(k1), _k2(k2) {};
 	virtual void updateForce(Particula* p, double t);
 	void setIntensity(float i) { intensity = i; }
 	void setTimeCt(float tC) { timeCt = tC; }

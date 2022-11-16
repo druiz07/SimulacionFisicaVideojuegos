@@ -11,7 +11,7 @@
 #include "Uniforme.hpp"
 #include "ParticleForceRegistry.hpp";
 #include "GravityForceGenerator.hpp"
-
+#include "Torbellino.h"
 using namespace std;
 
 
@@ -35,16 +35,45 @@ PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 SistemaParticulas* Psystem = NULL;
 RenderItem* riFloor = NULL;
+PxShape* shape;
+//ELEMENTOS PRACTICA 3
+PxShape* suelo;
+ExplosionGenerator* eG;
+GravityForceGenerator* g;
+VientoGenerator* vG;
+Torbellino* tGenerator;
+float gr;
+float k1Wind, k2Wind;
+float tForce;
+float intensityExplosion;
+float radiusExplosion;
 
 
 void createbaseScene()
 {
-	//GeneradorGaussiano* gGauss = new GeneradorGaussiano({ 0.2,0.1,0.1 }, { .1,.1,.1 }, "Gaussiano1", { 25,40,0 }, { 2,25,0 }, { 0.1,0.2,0.7,1 }, 1, 6);
-	//Uniforme* uniform = new Uniforme({ 0.2,0.1,0.1 }, { .1,.1,.1 }, { 10,10,0 }, { 20,20,2 }, "Uniforme", { 1,1,10 }, { 2,20,0 }, { 0.5,0.2,0.7,1 }, 1, 6, 50, { 15,70,10 },800);
-	//Uniforme* uniform2 = new Uniforme({ 0.5,0.2,0.1 }, { .1,.1,.1 }, { 40,10,0 }, { 20,20,2 }, "Uniforme2", { 1,1,10 }, { 5,20,0 }, { 0.2,0.7,0.7,1 }, 1, 6, 50, { 15,70,10 },800);
-	Psystem = new SistemaParticulas();
-	//Psystem->addGen(uniform);
-	//Psystem->addGen(uniform2);
+	Psystem = new  SistemaParticulas();
+	suelo = CreateShape(PxBoxGeometry(100, 1, 100));
+
+
+	eG = new ExplosionGenerator();
+	intensityExplosion = 25;
+	radiusExplosion = 30;
+
+	eG->setctAnt(intensityExplosion, 3, { 0,0,0 }, radiusExplosion);
+
+
+	gr = -150.8;
+	k1Wind = 2;
+	k2Wind = 0.2;
+	tForce = 1;
+	
+	g = new GravityForceGenerator({ 0,-10,0 });
+	g->setGravity({ 0,gr,0 });
+	vG = new VientoGenerator(k1Wind, k2Wind);
+	vG->setWindVel({ 10,0,0 }); //Ejemplo para que vaya hacia la derecha
+
+	tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
+
 }
 
 
@@ -72,6 +101,7 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	suelo = CreateShape(PxBoxGeometry(100, 1, 100));
 
 	//Camera* cam = GetCamera();
 	//Vector3 dir = cam->getDir();
@@ -82,7 +112,7 @@ void initPhysics(bool interactive)
 	//diana = new Particula(pos + Vector3{ -100,0,-100 }, dir2, { 0.0,0.0,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2.25)), Vector4(1, 0, 1, 1)), Vector4{ 0.5,0.9,0.8,1 },5);
 	//Creacion y init de escena
 
-	 
+
 	createbaseScene();
 }
 
@@ -141,40 +171,80 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch (toupper(key))
 	{
-		
+
+	case 'G':
+	{
+		gr -= 10;
+		g->setGravity({ 0,gr,0 });
+		Particula* p = new Particula(Vector3{ 0,0,15 }, { 0,150,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+		Psystem->addToResgistry(p, g);
+		Psystem->addToSystem(p);
+
+
+
+		break;
+	}
+	case 'W':
+	{
+		//Viento con direccion a la derecha 
+		k1Wind -= 0.5;
+		k2Wind -= 0.05;
+		vG->setk1k2(k1Wind, k2Wind);
+		Particula* p = new Particula(Vector3{ 0,15,0 }, { -40,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+		Psystem->addToResgistry(p, vG);
+		Psystem->addToSystem(p);
+
+
+
+		break;
+	}
 	case 'T':
 	{
-		createMainFloor();
-		/*
-		Camera* cam = GetCamera();
-		Vector3 dir = cam->getDir();
-		Vector3 pos = cam->getTransform().p;
-		Vector3 dir2{ 0,0,0 };
-		Vector3 pos2=pos;*/
+		tForce += 0.02;
+		tGenerator->setForce(tForce);
+		Particula* p = new Particula(Vector3{ 0,15,0 }, { 20,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,1 }, 50);
+		Psystem->addToResgistry(p, tGenerator);
+		Psystem->addToSystem(p);
 
-		createMainFloor();
-		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 3, Vector4{ 0.2,0.2,0.5,1 }, 4, 10);
-		Psystem->generateFireworkSistem(Vector3{ 0,0,25 }, { 0,15,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2.5)), Vector4(1, 0, 1, 1)), 1.5, 4, Vector4{ 0.7,0.9,0.1,1 }, 4, 10);		
-		break;
-	}
-	case 'H':
-	{
 
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-10,0 }, 90, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20,"circulo3d");
-		//Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,40,0 }, Vector3{ 0,-10,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.9,0.2,1 }, 5, 20, "lineas");
+
 		break;
 	}
-	case'K':
+	case 'E':
 	{
-	
-		Psystem->generateFireworkSistem(Vector3{ 5,0,5 }, { 0,25,0 }, Vector3{ 0,-5,0 }, 30, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.7,0.9,0.1,1 }, 5, 20, "circulo");
+		
+
+		Particula* p1 = new Particula(Vector3{ 20,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.0,0.5,0,1 }, 50);
+		Particula* p2 = new Particula(Vector3{ 9,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,3 }, 50);
+		Particula* p3 = new Particula(Vector3{ 15,15,10 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,4 }, 50);
+		Particula* p4 = new Particula(Vector3{ 40,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.5,0,1 }, 50);
+		Particula* p5 = new Particula(Vector3{ 25,15,30 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.4,0.8,0,1 }, 50);
+		Particula* p6 = new Particula(Vector3{ 0,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.7,0.1,0,2 }, 50);
+		Particula* p7 = new Particula(Vector3{ 10,15,5 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,5}, 50);
+		
+		intensityExplosion += 50;
+		radiusExplosion += 5;
+
+		eG->setctAnt(intensityExplosion, 1, { 0,0,0 }, radiusExplosion);
+		Psystem->addToResgistry(p1, eG);
+		Psystem->addToSystem(p1);
+		Psystem->addToResgistry(p2, eG);
+		Psystem->addToSystem(p2);
+		Psystem->addToResgistry(p3, eG);
+		Psystem->addToSystem(p3);
+		Psystem->addToResgistry(p4, eG);
+		Psystem->addToSystem(p4);
+		Psystem->addToResgistry(p5, eG);
+		Psystem->addToSystem(p5);
+		Psystem->addToResgistry(p6, eG);
+		Psystem->addToSystem(p6);
+		Psystem->addToResgistry(p7, eG);
+		Psystem->addToSystem(p7);
+
+
 		break;
 	}
-	case 'O':
-	{
-		Psystem->generateFireworkSistem(Vector3{ 0,0,15 }, { 0,30,0 }, Vector3{ 0,-7,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), 1.5, 2, Vector4{ 0.2,0.2,0.5,1 }, 5, 15, "lineas");
-		break;
-	}
+
 	default:
 		break;
 	}

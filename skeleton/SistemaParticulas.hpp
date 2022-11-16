@@ -14,6 +14,8 @@ public:
 
 	GeneradorGaussiano* fireworkGen;
 	std::vector<Firework*>fireworksPool;
+	void addToSystem(Particula* p) { particulasGen.push_back(p); };
+	void addToResgistry(Particula* p, ForceGenerator* fg) { pfR.addRegistry(fg, p); };
 	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo = "nada");
 	//void shootFirework();
 
@@ -27,17 +29,8 @@ protected:
 };
 SistemaParticulas::SistemaParticulas()
 {
-	eG = new ExplosionGenerator();
-	eG->setctAnt(15, 3, { 10,0,0 }, 25);//intensidad 10 desde el 000 radio 10 y de tiempo 5
+	
 
-	Particula* p = new Particula({ 5,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
-
-	Particula* p2 = new Particula({ 7,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 4, 0.98, new RenderItem(CreateShape(PxSphereGeometry(1)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.8,0.5,0.2,1 }, 50);
-	pfR.addRegistry(eG, p);
-	pfR.addRegistry(eG, p2);
-
-	particulasGen.push_back(p);
-	particulasGen.push_back(p2);
 
 }
 void SistemaParticulas::update(double t)
