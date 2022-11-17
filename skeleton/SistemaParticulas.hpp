@@ -17,7 +17,7 @@ public:
 	void addToSystem(Particula* p) { particulasGen.push_back(p); };
 	void addToResgistry(Particula* p, ForceGenerator* fg) { pfR.addRegistry(fg, p); };
 	void generateFireworkSistem(Vector3 pos, Vector3 vel, Vector3 a, float m, float d, RenderItem* r, float sPart, int nD, Vector4 c, double tA, int nPG, string circulo = "nada");
-	//void shootFirework();
+	void deleteParticles();
 
 
 protected:
@@ -82,5 +82,14 @@ inline void SistemaParticulas::generateFireworkSistem(Vector3 pos, Vector3 vel, 
 {
 	particulasGen.push_back(new Firework(pos, vel, a, m, d, r, sPart, nD, c, tA, nPG, circulo));
 
+}
+void SistemaParticulas::deleteParticles()
+{
+	list<Particula*>::iterator it = particulasGen.begin();
+	while (it != particulasGen.end())
+	{
+		if(*it !=nullptr)it = particulasGen.erase(it);
+		
+	}
 }
 

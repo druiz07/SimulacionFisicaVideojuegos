@@ -42,6 +42,7 @@ ExplosionGenerator* eG;
 GravityForceGenerator* g;
 VientoGenerator* vG;
 Torbellino* tGenerator;
+Particula* forceEffects;
 float gr;
 float k1Wind, k2Wind;
 float tForce;
@@ -55,25 +56,23 @@ void createbaseScene()
 	suelo = CreateShape(PxBoxGeometry(100, 1, 100));
 
 
-	eG = new ExplosionGenerator();
+	//Explosion
 	intensityExplosion = 25;
 	radiusExplosion = 30;
 
-	eG->setctAnt(intensityExplosion, 3, { 0,0,0 }, radiusExplosion);
+	
 
 
 	gr = -150.8;
 	k1Wind = 2;
 	k2Wind = 0.2;
 	tForce = 1;
+
 	
-	g = new GravityForceGenerator({ 0,-10,0 });
-	g->setGravity({ 0,gr,0 });
-	vG = new VientoGenerator(k1Wind, k2Wind);
-	vG->setWindVel({ 10,0,0 }); //Ejemplo para que vaya hacia la derecha
+	
 
-	tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
-
+	
+	 forceEffects = new Particula(Vector3{ 0,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(100)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
 }
 
 
@@ -101,9 +100,12 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	suelo = CreateShape(PxBoxGeometry(100, 1, 100));
+	physx::PxBoxGeometry r =PxBoxGeometry(1, 1, 1);
 
-	//Camera* cam = GetCamera();
+
+
+	Camera* cam = GetCamera();
+	cam->getTransform().p = { 60,4,60 };
 	//Vector3 dir = cam->getDir();
 	//Vector3 pos = cam->getTransform().p;
 	//Vector3 dir2{ 0,0,0 };
@@ -153,6 +155,8 @@ void cleanupPhysics(bool interactive)
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
+	delete forceEffects;
+
 
 	gFoundation->release();
 }
@@ -174,9 +178,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	case 'G':
 	{
+		g = new GravityForceGenerator({ 0,-10,0 });
+		g->setGravity({ 0,gr,0 });
 		gr -= 10;
 		g->setGravity({ 0,gr,0 });
-		Particula* p = new Particula(Vector3{ 0,0,15 }, { 0,150,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+		Particula* p = new Particula(Vector3{ 0,0,15 }, { 0,150,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 10);
 		Psystem->addToResgistry(p, g);
 		Psystem->addToSystem(p);
 
@@ -184,13 +190,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 		break;
 	}
-	case 'W':
+	case 'V':
 	{
+		vG = new VientoGenerator(k1Wind, k2Wind);
+		vG->setWindVel({ 10,0,0 }); //Ejemplo para que vaya hacia la derecha
+
 		//Viento con direccion a la derecha 
-		k1Wind -= 0.5;
+		k1Wind -= 0.1;
 		k2Wind -= 0.05;
 		vG->setk1k2(k1Wind, k2Wind);
-		Particula* p = new Particula(Vector3{ 0,15,0 }, { -40,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+		Particula* p = new Particula(Vector3{ 0,15,0 }, { -40,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 10);
 		Psystem->addToResgistry(p, vG);
 		Psystem->addToSystem(p);
 
@@ -200,9 +209,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case 'T':
 	{
-		tForce += 0.02;
+		tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
+
+		tForce += 0.07;
 		tGenerator->setForce(tForce);
-		Particula* p = new Particula(Vector3{ 0,15,0 }, { 20,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,1 }, 50);
+		Particula* p = new Particula(Vector3{ 0,15,0 }, { 5,0,0 }, Vector3{ 0,0,0 }, 0.5, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,1 }, 20);
 		Psystem->addToResgistry(p, tGenerator);
 		Psystem->addToSystem(p);
 
@@ -212,16 +223,18 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case 'E':
 	{
-		
+		eG = new ExplosionGenerator();
+		eG->setctAnt(intensityExplosion, 3, { 0,0,0 }, radiusExplosion);
 
-		Particula* p1 = new Particula(Vector3{ 20,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.0,0.5,0,1 }, 50);
-		Particula* p2 = new Particula(Vector3{ 9,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,3 }, 50);
-		Particula* p3 = new Particula(Vector3{ 15,15,10 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,4 }, 50);
-		Particula* p4 = new Particula(Vector3{ 40,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.5,0,1 }, 50);
-		Particula* p5 = new Particula(Vector3{ 25,15,30 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.4,0.8,0,1 }, 50);
-		Particula* p6 = new Particula(Vector3{ 0,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.7,0.1,0,2 }, 50);
-		Particula* p7 = new Particula(Vector3{ 10,15,5 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,5}, 50);
-		
+
+		Particula* p1 = new Particula(Vector3{ 20,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.0,0.5,0,1 }, 10);
+		Particula* p2 = new Particula(Vector3{ 9,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,3 }, 5);
+		Particula* p3 = new Particula(Vector3{ 15,15,10 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.7,0,4 }, 10);
+		Particula* p4 = new Particula(Vector3{ 40,15,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.5,0,1 }, 5);
+		Particula* p5 = new Particula(Vector3{ 25,15,30 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.4,0.8,0,1 }, 10);
+		Particula* p6 = new Particula(Vector3{ 0,15,15 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.7,0.1,0,2 }, 5);
+		Particula* p7 = new Particula(Vector3{ 10,15,5 }, { 0,0,0 }, Vector3{ 0,0,0 }, 1, 0.98, new RenderItem(CreateShape(PxSphereGeometry(3)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.5,0.7,0,5 }, 10);
+
 		intensityExplosion += 50;
 		radiusExplosion += 5;
 
@@ -248,6 +261,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	default:
 		break;
 	}
+	
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
