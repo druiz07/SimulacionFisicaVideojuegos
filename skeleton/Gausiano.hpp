@@ -57,7 +57,7 @@ list<Particula*>GeneradorGaussiano::generateParticles()
 
 		auto p = new Particula();
 		Vector3 aSp{ 10,10,10 };
-		p->setParticle(pos, vel, { 0.0,gravity,0.0 }, 1, 0.99, new RenderItem(CreateShape(PxSphereGeometry(0.9)), Vector4(1, 0, 1, 1)), aSp, timeAlive, particlecolor);
+		p->setParticle(pos, vel, { 0.0,0.0,0.0 }, 0.2, 0.99, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), aSp, timeAlive, particlecolor);
 		pAux.push_back(p);
 		
 

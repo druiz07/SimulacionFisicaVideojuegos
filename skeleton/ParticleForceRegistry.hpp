@@ -11,7 +11,8 @@ public:
 	{
 		for (auto it = begin(); it != end(); it++)
 		{
-			it->first->updateForce(it->second, duration);
+			
+		it->first->updateForce(it->second, duration);
 		}
 	};
 	void addRegistry(ForceGenerator* fg, Particula* p)

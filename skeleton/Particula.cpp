@@ -103,7 +103,7 @@ void Particula::setParticle(Vector3 pos, Vector3 initialSpeed, Vector3 a, float 
 	renderItem->color = c;
 	timeAlive = ta;
 	actionSpace = posSpace;
-
+	inverse_mass = (1 / mass);
 	damping = d;   //Rozamiento entre 0 y 1
 }
 
