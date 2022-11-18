@@ -53,11 +53,12 @@ float radiusExplosion;
 void createbaseScene()
 {
 	Psystem = new  SistemaParticulas();
-	suelo = CreateShape(PxBoxGeometry(100, 1, 100));
+	suelo = CreateShape(PxBoxGeometry(100, 100, 100));
+	
 
 
 	eG = new ExplosionGenerator();
-	intensityExplosion = 20;
+	intensityExplosion = 10000;
 	radiusExplosion = 10;
 
 	eG->setctAnt(intensityExplosion, 3, { 0,0,0 }, radiusExplosion);
@@ -268,7 +269,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Psystem->addToResgistry(p, vG);
 		Psystem->addToSystem(p);
 
-		//Psystem->genNPart( vG,5);
+		Psystem->genNPart( vG,5);
 
 
 
@@ -291,6 +292,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'E':
 	{
 		Psystem->deleteParticles();
+		
 		radiusExplosion += 5;
 		eG->setRadius(radiusExplosion);
 

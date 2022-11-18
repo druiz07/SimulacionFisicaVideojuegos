@@ -64,8 +64,12 @@ void SistemaParticulas::update(double t)
 					a.clear();
 				}
 				if (*it != nullptr) {
+					
+					pfR.deleteParticleRegistry(*it);
 					delete* it;
 					it = particulasGen.erase(it);
+
+
 				}
 			}
 			else it++;
@@ -91,6 +95,7 @@ void SistemaParticulas::deleteParticles()
 	{
 		if (*it != nullptr)
 		{
+			pfR.deleteParticleRegistry(*it);
 			delete* it;
 			it = particulasGen.erase(it);
 		}
