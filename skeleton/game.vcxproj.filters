@@ -15,6 +15,11 @@
     <ClCompile Include="VientoGenerador.cpp" />
     <ClCompile Include="Torbellino.cpp" />
     <ClCompile Include="Exposion.cpp" />
+    <ClCompile Include="ParticleSpring.cpp" />
+    <ClCompile Include="ParticulasUnidasScene.cpp" />
+    <ClCompile Include="ParticleAnchoredSpring.cpp" />
+    <ClCompile Include="ParticleBuoyancy.cpp" />
+    <ClCompile Include="ParticulaBote.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -40,6 +45,11 @@
     <ClInclude Include="VientoGenerator.h" />
     <ClInclude Include="Torbellino.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ParticleSpring.h" />
+    <ClInclude Include="ParticulasUnidasScene.h" />
+    <ClInclude Include="ParticleAnchoredSpring.h" />
+    <ClInclude Include="ParticleBuoyancy.h" />
+    <ClInclude Include="ParticulaBote.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
