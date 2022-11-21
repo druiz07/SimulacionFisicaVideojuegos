@@ -75,7 +75,7 @@ void FireworkSystem::update(float t) {
 		}
 		else {
 			forceRegistry->deleteParticleRegistry(*p);
-			explode(*p);
+			(*p)->explode(this);
 			delete* p;
 			p = fireworks.erase(p);
 		}
@@ -99,13 +99,7 @@ void FireworkSystem::instantiateFirework(type t, Vector3 pos, Vector3 parentVel)
 	createFirework(type, pos, vel);
 }
 
-void FireworkSystem::explode(Firework* f) {
-	if (info[f->getType()].childType != NONE_TYPE) {
-		for (int i = 0; i < info[f->getType()].numFireworksToInstantiate; i++) {
-			instantiateFirework(info[f->getType()].childType, f->getPosition(), f->getVel());
-		}
-	}
-}
+
 
 void FireworkSystem::createFirework(const typeInfo& type, Vector3 pos, Vector3 vel) {
 	float lifeTime = type.minLifeTime + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (type.maxLifeTime - type.minLifeTime))); //Tiempo de vida aleatorio

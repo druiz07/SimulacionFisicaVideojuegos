@@ -10,6 +10,7 @@
 #include "ParticleExplosion.h"
 #include "ParticleDrag.h"
 #include "Explosion.h"
+#include "GeneradorSimple.hpp"
 
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
@@ -37,18 +38,21 @@ struct typeInfo {
 	physx::PxTransform pos = physx::PxTransform(0, 0, 0);
 };
 
-class FireworkSystem {
+class FireworkSystem:public GeneradorSimple {
 public:
-	FireworkSystem(ParticleForceRegistry* forceRegistry, const std::vector<ParticleForceGenerator*>& generators, const std::vector<RenderItem*>& sph, 
+	FireworkSystem(ParticleForceRegistry* forceRegistry, const std::vector<ParticleForceGenerator*>& generators, const std::vector<RenderItem*>& sph,
 			const std::vector<int>& sphereSizes, RenderItem* expSphere, std::list<ParticleExp>* particleExplosions);
 
 	~FireworkSystem();
 
 	void update(float t);
+	virtual void generateParticles() { };
 	void instantiateInitFirework();
+	void instantiateFirework(type t, Vector3 parentPos = Vector3(0, 0, 0), Vector3 parentVel = Vector3(0, 0, 0));
+	vector<typeInfo> info;
 
 private:
-	vector<typeInfo> info;
+	
 
 	std::vector<RenderItem*> spheres;
 	std::vector<int> sphereSizes;
@@ -61,8 +65,8 @@ private:
 
 	std::list<ParticleExp>* particleExplosions;
 
-	void instantiateFirework(type t, Vector3 parentPos = Vector3(0, 0, 0), Vector3 parentVel = Vector3(0, 0, 0));
-	void explode(Firework* f);
+	
+	
 	void createFirework(const typeInfo& type, Vector3 pos, Vector3 vel);
 };
 

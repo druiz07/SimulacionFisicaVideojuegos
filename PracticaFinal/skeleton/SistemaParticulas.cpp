@@ -1,7 +1,7 @@
 #include "SistemaParticulas.h"
 #include <iostream>
 
-SistemaParticulas::SistemaParticulas(float c, int maxLT, int minLT, int maxV, int minV, int nP, int maxS, int minS, ParticleForceRegistry* fR, 
+SistemaParticulas::SistemaParticulas(float c, int maxLT, int minLT, int maxV, int minV, int nP, int maxS, int minS, ParticleForceRegistry* fR,
 	const std::vector<ParticleForceGenerator*>& gen, const std::vector<RenderItem*>& sph, const std::vector<int>& sSizes, RenderItem* eS, std::list<ParticleExp>* pExps) {
 	cadence = c;
 
@@ -31,7 +31,7 @@ SistemaParticulas::~SistemaParticulas() {
 	for (auto a : particulas) delete a;
 }
 
-void SistemaParticulas::instantiateParticles() {
+void SistemaParticulas::generateParticles() {
 	float ang = 0;
 	for (int i = 0; i < numParticulas; i++) {
 		float x = cos(ang);
@@ -86,7 +86,7 @@ void SistemaParticulas::update(float t) {
 
 	actTime -= t;
 	if (actTime < 0) {
-		instantiateParticles();
+		generateParticles();
 		actTime = cadence;
 	}
 }
