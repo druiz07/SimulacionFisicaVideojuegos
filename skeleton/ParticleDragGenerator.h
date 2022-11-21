@@ -6,7 +6,7 @@ public:
 
 	ParticleDragGenerator(){};
 	ParticleDragGenerator(const float k1, const float k2):_k1(k1), _k2(k2) {};
-	virtual void updateForce(Particula* p, double t);
+	virtual void updateForce(Particula* p, float t);
 
 protected:
 	float _k1;

@@ -1,8 +1,8 @@
 #include "ParticulasUnidasScene.h"
-//
-//void ParticulasUnidasScene::initObjects() {
 
-	/*GetCamera()->setEye(physx::PxVec3(0, 0, 125));
+void ParticulasUnidasScene::initObjects() {
+
+	GetCamera()->setEye(physx::PxVec3(0, 0, 125));
 	GetCamera()->setDir(physx::PxVec3(0, 0, -1));
 
 	forceRegistry = new ParticleForceRegistry();
@@ -61,4 +61,4 @@ void ParticulasUnidasScene::keyPress(char k) {
 		break;
 	}
 }
-*/
+

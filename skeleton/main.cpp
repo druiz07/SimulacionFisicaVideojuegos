@@ -14,6 +14,8 @@
 #include "Torbellino.h"
 #include "ParticleAnchoredSpring.h"
 #include "ParticleSpring.h"
+#include "ParticleBuoyancy.h"
+#include "ParticulaBote.h"
 using namespace std;
 
 
@@ -44,6 +46,7 @@ ExplosionGenerator* eG;
 GravityForceGenerator* g;
 VientoGenerator* vG;
 Torbellino* tGenerator;
+ParticleDragGenerator* dGen;
 Particula* forceEffects;
 float gr;
 float k1Wind, k2Wind;
@@ -55,7 +58,7 @@ float radiusExplosion;
 void createbaseScene()
 {
 	Psystem = new  SistemaParticulas();
-	suelo = CreateShape(PxBoxGeometry(100, 100, 100));
+	/*suelo = CreateShape(PxBoxGeometry(100, 100, 100));
 
 
 
@@ -69,38 +72,69 @@ void createbaseScene()
 	gr = -75;
 	k1Wind = 12;
 	k2Wind = 0.75;
-	tForce = 1;
+	tForce = 1;*/
 
-	g = new GravityForceGenerator({ 0,-10,0 });
-	g->setGravity({ 0,gr,0 });
-	vG = new VientoGenerator(k1Wind, k2Wind);
-	vG->setWindVel({ 10,40,10 }); //Ejemplo para que vaya hacia la derecha
+	g = new GravityForceGenerator({ 0,-20,0 });
+	g->setGravity({ 0,-9.8,0 });
+	//vG = new VientoGenerator(k1Wind, k2Wind);
+	//vG->setWindVel({ 10,40,10 }); //Ejemplo para que vaya hacia la derecha
 
-	tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
-
-	forceEffects = new Particula(Vector3{ 0,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(200)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+	//tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
 
 
-
-
-	//Particula* p1Spring = new Particula(Vector3{ -10,10,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
-
-	//Particula* p2Spring = new Particula(Vector3{ 10,10,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
-
-	//ParticleSpring* pSpring = new ParticleSpring(p2Spring, (1), 10.0f);
-	//Psystem->addToResgistry(p1Spring, pSpring);
-	//ParticleSpring* pSpring2 = new ParticleSpring(p2Spring, 1.0f, 10.0f);
-	//Psystem->addToResgistry(p2Spring, pSpring2);
-	//Psystem->addToSystem(p1Spring);
-	//Psystem->addToSystem(p2Spring);
+	//forceEffects = new Particula(Vector3{ 0,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(200)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
 
 
 
+	GetCamera()->setEye(physx::PxVec3(0, 0, 125));
+	GetCamera()->setDir(physx::PxVec3(0, 0, -1));
 
-	Particula* p3Spring = new Particula(Vector3{ -30,20,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
-	ParticleAnchoredSpring* pAnchoredForce = new ParticleAnchoredSpring({ 30,20,0 }, 4.0f, 10.0f);
-	Psystem->addToResgistry(p3Spring, pAnchoredForce);
-	Psystem->addToSystem(p3Spring);
+	////Particulas unidas
+
+	//Particula* particulaA = new Particula(Vector3{ -40,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.1,0.2,0.5,1 }, 50);
+
+	//Particula* particulaB = new Particula(Vector3{ 40,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.6,0.6,0.5,1 }, 50);
+
+	//
+	//ParticleSpring* pSpring = new ParticleSpring(particulaB, 2, 40);
+	//
+	//g->setGravity({ 0,0,0 });
+	//dGen = new ParticleDragGenerator(0.1, 0);
+	//Psystem->addToResgistry(particulaA, pSpring);
+	//Psystem->addToResgistry(particulaA, g);
+	//Psystem->addToResgistry(particulaA, dGen);
+	//Psystem->addToSystem(particulaA);
+	//auto particleSpringB = new ParticleSpring(particulaA, 2, 40);
+	//
+	//
+
+	//Psystem->addToResgistry(particulaB, particleSpringB);
+	//Psystem->addToResgistry(particulaB, g);
+	//Psystem->addToResgistry(particulaB, dGen);
+	//Psystem->addToSystem(particulaB);
+
+
+	//MUELLE ANCLADO 
+
+	//Particula* p3Spring = new Particula(Vector3{ -30,20,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(10)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,1 }, 50);
+	//ParticleAnchoredSpring* pAnchoredForce = new ParticleAnchoredSpring({ 30,20,0 }, 4.0f, 10.0f);
+	//Psystem->addToResgistry(p3Spring, pAnchoredForce);
+	//Psystem->addToSystem(p3Spring);
+
+
+	auto marTr = new physx::PxTransform(Vector3(0, 0, 0));
+
+	auto mar = new RenderItem(CreateShape(physx::PxBoxGeometry(70, 0.1, 50)), marTr, { 0.3, 0.3, 0.4, 1 });
+
+	dGen = new ParticleDragGenerator(0.5, 0);
+
+
+	ParticleBuoyancy* buoyancy = new ParticleBuoyancy(0);
+	ParticulaBote* pBouyancy = new ParticulaBote(0.2, 0.1, Vector3{ 0,50,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(2)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+	Psystem->addToResgistry(pBouyancy, g);//Gravedad
+	Psystem->addToResgistry(pBouyancy, buoyancy); //Flotabilidad
+	Psystem->addToResgistry(pBouyancy, dGen); //Flotabilidad
+	Psystem->addToSystem(pBouyancy);
 
 
 }

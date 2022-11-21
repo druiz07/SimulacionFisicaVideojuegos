@@ -262,7 +262,6 @@
     <ClCompile Include="ParticleSpring.cpp" />
     <ClCompile Include="Particula.cpp" />
     <ClCompile Include="ParticulaBote.cpp" />
-    <ClCompile Include="ParticulasUnidasScene.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
@@ -285,7 +284,6 @@
     <ClInclude Include="ParticleSpring.h" />
     <ClInclude Include="Particula.h" />
     <ClInclude Include="ParticulaBote.h" />
-    <ClInclude Include="ParticulasUnidasScene.h" />
     <ClInclude Include="Proyectil.hpp" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />

@@ -1,6 +1,6 @@
 #include "ParticleDragGenerator.h"
 #include "Particula.h"
-void ParticleDragGenerator::updateForce(Particula* p, double t)
+void ParticleDragGenerator::updateForce(Particula* p, float t)
 {
 
 

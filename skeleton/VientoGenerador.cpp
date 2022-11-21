@@ -1,6 +1,6 @@
 #include "VientoGenerator.h"
 #include "Particula.h"
-void VientoGenerator::updateForce(Particula* p, double t)
+void VientoGenerator::updateForce(Particula* p, float t)
 {
 
 

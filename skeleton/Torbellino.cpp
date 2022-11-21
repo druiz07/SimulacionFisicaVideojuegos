@@ -1,6 +1,6 @@
 #include "Torbellino.h"
 #include "Particula.h"
-void Torbellino::updateForce(Particula* p, double t)
+void Torbellino::updateForce(Particula* p, float t)
 {
 
 
