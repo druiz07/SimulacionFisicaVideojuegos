@@ -278,12 +278,15 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SistemaParticulas.cpp" />
     <ClCompile Include="SistemasScene.cpp" />
+    <ClCompile Include="Torbellino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Firework.h" />
+    <ClInclude Include="Gaussiano.hpp" />
+    <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="FireworkSystem.h" />
     <ClInclude Include="MuelleAncladoScene.h" />
     <ClInclude Include="MuelleFlotadorScene.h" />
@@ -305,6 +308,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SistemaParticulas.h" />
     <ClInclude Include="SistemasScene.h" />
+    <ClInclude Include="Torbellino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

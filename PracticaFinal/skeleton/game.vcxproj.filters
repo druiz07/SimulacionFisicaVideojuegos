@@ -22,6 +22,7 @@
     <ClCompile Include="MuelleAncladoScene.cpp" />
     <ClCompile Include="ParticulasUnidasScene.cpp" />
     <ClCompile Include="MuelleFlotadorScene.cpp" />
+    <ClCompile Include="Torbellino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -53,6 +54,9 @@
     <ClInclude Include="MuelleAncladoScene.h" />
     <ClInclude Include="ParticulasUnidasScene.h" />
     <ClInclude Include="MuelleFlotadorScene.h" />
+    <ClInclude Include="GeneradorSimple.hpp" />
+    <ClInclude Include="Gaussiano.hpp" />
+    <ClInclude Include="Torbellino.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

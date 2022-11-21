@@ -10,13 +10,15 @@
 #include "ParticleDrag.h"
 #include "ParticleWind.h"
 #include "ParticleExplosion.h"
+#include "Torbellino.h"
 #include "Explosion.h"
+#include "GeneradorSimple.hpp"
 
 using namespace std;
 
-class SistemaParticulas {
+class SistemaParticulas :GeneradorSimple {
 public:
-	SistemaParticulas(float cadence, int maxLT, int minLT, int maxV, int minV, int numP, int maxS, int minS, ParticleForceRegistry* forceRegistry, 
+	SistemaParticulas(float cadence, int maxLT, int minLT, int maxV, int minV, int numP, int maxS, int minS, ParticleForceRegistry* forceRegistry,
 	const std::vector<ParticleForceGenerator*>& generators, const std::vector<RenderItem*>& sph, const std::vector<int>& sphereSizes, RenderItem* expSphere, std::list<ParticleExp>* particleExplosions);
 
 	~SistemaParticulas();
@@ -24,7 +26,7 @@ public:
 	void update(float t);
 
 private:
-	void instantiateParticles();
+	void generateParticles();
 
 	float actTime;
 	float cadence;

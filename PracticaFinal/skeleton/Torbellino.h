@@ -1,6 +1,8 @@
-#include "VientoGenerator.h"
-class Torbellino :public ForceGenerator
+#pragma once
+#include "ParticleForceGenerator.h"
+class Torbellino :public ParticleForceGenerator
 {
+
 public:
 
 	Torbellino() {};
@@ -15,4 +17,8 @@ protected:
 	float _k2;
 	float kF;
 	Vector3 centroTorbellino;
+
+
+
 };
+
