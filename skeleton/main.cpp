@@ -12,6 +12,8 @@
 #include "ParticleForceRegistry.hpp";
 #include "GravityForceGenerator.hpp"
 #include "Torbellino.h"
+#include "ParticleAnchoredSpring.h"
+#include "ParticleSpring.h"
 using namespace std;
 
 
@@ -54,7 +56,7 @@ void createbaseScene()
 {
 	Psystem = new  SistemaParticulas();
 	suelo = CreateShape(PxBoxGeometry(100, 100, 100));
-	
+
 
 
 	eG = new ExplosionGenerator();
@@ -77,6 +79,30 @@ void createbaseScene()
 	tGenerator = new Torbellino(1, 0.01, 1, { 0,0,0 });
 
 	forceEffects = new Particula(Vector3{ 0,0,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 0.2, 0.98, new RenderItem(CreateShape(PxSphereGeometry(200)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+
+
+
+
+	//Particula* p1Spring = new Particula(Vector3{ -10,10,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+
+	//Particula* p2Spring = new Particula(Vector3{ 10,10,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+
+	//ParticleSpring* pSpring = new ParticleSpring(p2Spring, (1), 10.0f);
+	//Psystem->addToResgistry(p1Spring, pSpring);
+	//ParticleSpring* pSpring2 = new ParticleSpring(p2Spring, 1.0f, 10.0f);
+	//Psystem->addToResgistry(p2Spring, pSpring2);
+	//Psystem->addToSystem(p1Spring);
+	//Psystem->addToSystem(p2Spring);
+
+
+
+
+	Particula* p3Spring = new Particula(Vector3{ -30,20,0 }, { 0,0,0 }, Vector3{ 0,0,0 }, 2, 0.85, new RenderItem(CreateShape(PxSphereGeometry(30)), Vector4(1, 0, 1, 1)), Vector3{ 1000,1000,1000 }, Vector4{ 0.2,0.2,0.5,0 }, 50);
+	ParticleAnchoredSpring* pAnchoredForce = new ParticleAnchoredSpring({ 30,20,0 }, 4.0f, 10.0f);
+	Psystem->addToResgistry(p3Spring, pAnchoredForce);
+	Psystem->addToSystem(p3Spring);
+
+
 }
 
 void createMainFloor()
@@ -269,7 +295,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Psystem->addToResgistry(p, vG);
 		Psystem->addToSystem(p);
 
-		Psystem->genNPart( vG,5);
+		Psystem->genNPart(vG, 5);
 
 
 
@@ -292,7 +318,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'E':
 	{
 		Psystem->deleteParticles();
-		
+
 		radiusExplosion += 5;
 		eG->setRadius(radiusExplosion);
 
