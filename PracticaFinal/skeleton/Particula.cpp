@@ -32,13 +32,13 @@ void Particula::update(double t) {
 		return;
 	}
 
-	pos.p += vel * t;
+	
 
 	Vector3 a = acc;
 	a += force * inverse_mass;
 
 	vel += a * t;
-
+	pos.p += vel * t;
 	clearForce();
 }
 
@@ -58,12 +58,28 @@ void Particula::setColor(Vector4 color) {
 	renderI->color = color;
 }
 
+void Particula::setdepthVol(float d, float v)
+{
+	maxDepth = d;
+	volume = v;
+}
+
 Vector3 Particula::getPosition() {
 	return pos.p;
 }
 
 Vector3 Particula::getVel() {
 	return vel;
+}
+
+float Particula::getDepth()
+{
+	return maxDepth;
+}
+
+float Particula::getVolume()
+{
+	return volume;
 }
 
 bool Particula::alive() {

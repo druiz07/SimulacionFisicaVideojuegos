@@ -7,12 +7,13 @@ void ParticulasUnidasScene::initObjects() {
 
 	forceRegistry = new ParticleForceRegistry();
 
-	particulaA = new Particula(Vector3(30, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.3, 0.3, 0.4, 1 }, INT_MAX, 20, 5);
-	particulaB = new Particula(Vector3(-30, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.6, 0, 0.2, 1 }, INT_MAX, 20, 5);
+	particulaA = new Particula(Vector3(40, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.3, 0.3, 0.4, 1 }, INT_MAX, 20, 5);
+	particulaB = new Particula(Vector3(-40, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.6, 0, 0.2, 1 }, INT_MAX, 20, 5);
 
-	kElasticity = new float(5.0f);
+	kElasticity = new float(500.0f);
 
-	particleSpringA = new ParticleSpring(particulaB, kElasticity, 40);
+	esGoma = new bool(false);
+	particleSpringA = new ParticleSpring(particulaB, kElasticity, 40, esGoma);
 	gravityA = new ParticleGravity(Vector3(0, 0, 0));
 	dragA = new ParticleDrag(0.1, 0);
 
@@ -20,7 +21,7 @@ void ParticulasUnidasScene::initObjects() {
 	forceRegistry->add(particulaA, gravityA);
 	forceRegistry->add(particulaA, dragA);
 
-	particleSpringB = new ParticleSpring(particulaA, kElasticity, 40);
+	particleSpringB = new ParticleSpring(particulaA, kElasticity, 40, esGoma);
 	gravityB = new ParticleGravity(Vector3(0, 0, 0));
 	dragB = new ParticleDrag(0.1, 0);
 
@@ -36,6 +37,7 @@ void ParticulasUnidasScene::destroyObjects() {
 
 	delete particulaA; delete particulaB;
 
+	delete esGoma;
 	delete kElasticity;
 }
 
@@ -56,6 +58,14 @@ void ParticulasUnidasScene::keyPress(char k) {
 		(*kElasticity)--;
 		std::cout << "Constante Elasticidad : " << (*kElasticity) << '\n';
 		break;
+	}
+	case 'G': {
+
+		*esGoma = !(*esGoma);
+		//if (*esGoma)std::cout << "El muelle es una goma " << "\n";
+		//else std::cout << "El muelle no es una goma " << "\n";
+		//break;
+
 	}
 	default:
 		break;

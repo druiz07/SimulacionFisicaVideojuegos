@@ -51,18 +51,18 @@ void SistemaParticulas::generateParticles() {
 		ParticleGravity* gravity = new ParticleGravity(Vector3(0, -9.8, 0));
 		ParticleWind* wind = new ParticleWind(Vector3(30, 0, 0), spheres, sphereSizes);
 		ParticleExplosion* explosion = new ParticleExplosion(500, expSphere);
-		//ParticleDrag* drag = new ParticleDrag(0, 0);
-		Torbellino* t= new Torbellino(1, 0.01, 1, { 0,0,0 });
+		ParticleDrag* drag = new ParticleDrag(0, 0);
+		//Torbellino* t= new Torbellino(1, 0.01, 1, { 0,0,0 });
 
 
-		generators.push_back(gravity); generators.push_back(wind); generators.push_back(explosion); generators.push_back(t);
+		generators.push_back(gravity); generators.push_back(wind); generators.push_back(explosion); generators.push_back(drag);
 
 		particleExplosions->push_back({ explosion, p });
 		
 		forceRegistry->add(p, wind);
 		forceRegistry->add(p, gravity);
 		forceRegistry->add(p, explosion);
-		forceRegistry->add(p, t);
+		forceRegistry->add(p, drag);
 
 		particulas.push_back(p);
 

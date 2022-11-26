@@ -9,8 +9,11 @@ void ParticleSpring::updateForce(Particula* particle, float t) {
 
 	float deltaL = length - restLength;
 
-	float forceMagnitude = -(*k) * deltaL;
-	f *= forceMagnitude;
+	if (!*goma||length > restLength) {
+		float forceMagnitude = -(*k) * deltaL;
+		f *= forceMagnitude;
+		particle->addForce(f);
+	}
 
-	particle->addForce(f);
+	
 }

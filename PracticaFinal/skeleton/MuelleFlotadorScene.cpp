@@ -11,11 +11,11 @@ void MuelleFlotadorScene::initObjects() {
 
 	mar = new RenderItem(CreateShape(physx::PxBoxGeometry(20.0, 0.1, 20.0)), marTr, { 0.3, 0.3, 0.4, 1 });
 
-	pFlotante = new Particula(Vector3(0, -20, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.6, 0, 0.2, 1 }, INT_MAX, 20, 5);
-
-	buoyancy = new ParticleBuoyancy(0.3, 0.1, 0);
+	pFlotante = new Particula(Vector3(0, 30, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), { 0.6, 0, 0.2, 1 }, INT_MAX, 20, 5);
+	pFlotante->setdepthVol(0.3, 0.1);
+	buoyancy = new ParticleBuoyancy( 0);
 	gravity = new ParticleGravity(Vector3(0, -9.8, 0));
-	drag = new ParticleDrag(0.5, 0);
+	drag = new ParticleDrag(10, 0);
 
 	forceRegistry->add(pFlotante, gravity);
 	forceRegistry->add(pFlotante, drag);

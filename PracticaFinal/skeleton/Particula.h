@@ -17,8 +17,11 @@ public:
 	void setLifeTime(float lT);
 	void setPosition(Vector3 pos);
 	void setColor(Vector4 color);
+	void setdepthVol(float d, float v);
 	Vector3 getPosition();
 	Vector3 getVel();
+	float getDepth();
+	float getVolume();
 
 	bool alive();
 	bool hasFiniteMass();
@@ -33,6 +36,8 @@ protected:
 	Vector3 vel;
 	Vector3 acc;
 	Vector4 color;
+	float maxDepth=0;
+	float volume=0;
 	
 	Vector3 force;
 	float inverse_mass;

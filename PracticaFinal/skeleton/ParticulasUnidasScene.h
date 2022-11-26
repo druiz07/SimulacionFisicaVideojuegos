@@ -20,6 +20,7 @@ private:
 	std::vector<ParticleForceGenerator*> generators;
 
 	float* kElasticity = NULL;
+	bool* esGoma = NULL;
 
 	Particula* particulaA = NULL;
 	ParticleSpring* particleSpringA = NULL;
