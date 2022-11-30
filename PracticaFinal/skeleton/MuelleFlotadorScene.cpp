@@ -15,7 +15,7 @@ void MuelleFlotadorScene::initObjects() {
 	pFlotante->setdepthVol(0.3, 0.1);
 	buoyancy = new ParticleBuoyancy( 0);
 	gravity = new ParticleGravity(Vector3(0, -9.8, 0));
-	drag = new ParticleDrag(10, 0);
+	drag = new ParticleDrag(12, 0);
 
 	forceRegistry->add(pFlotante, gravity);
 	forceRegistry->add(pFlotante, drag);
