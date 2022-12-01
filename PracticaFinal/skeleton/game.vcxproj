@@ -261,6 +261,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BodySystem.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Firework.cpp" />
     <ClCompile Include="FireworkSystem.cpp" />
@@ -278,9 +279,15 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SistemaParticulas.cpp" />
     <ClCompile Include="SistemasScene.cpp" />
+    <ClCompile Include="SolidosRigidosScene.cpp" />
     <ClCompile Include="Torbellino.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BodyExplosion.h" />
+    <ClInclude Include="BodyForceGenerator.h" />
+    <ClInclude Include="BodySystem.h" />
+    <ClInclude Include="BodyTorque.h" />
+    <ClInclude Include="BodyWind.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="Explosion.h" />
@@ -308,6 +315,8 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SistemaParticulas.h" />
     <ClInclude Include="SistemasScene.h" />
+    <ClInclude Include="SolidBody.h" />
+    <ClInclude Include="SolidosRigidosScene.h" />
     <ClInclude Include="Torbellino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

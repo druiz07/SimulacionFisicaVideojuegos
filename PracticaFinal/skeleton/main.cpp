@@ -14,6 +14,7 @@
 #include "MuelleAncladoScene.h"
 #include "ParticulasUnidasScene.h"
 #include "MuelleFlotadorScene.h"
+#include "SolidosRigidosScene.h"
 
 using namespace physx;
 
@@ -121,6 +122,10 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		}
 		case (int)SceneNames::MUELLE_FLOTADOR: {
 			sceneManager->loadScene(new MuelleFlotadorScene(), n);
+			break;
+		}
+		case (int)SceneNames::SOLIDOS_RIGIDOS: {
+			sceneManager->loadScene(new SolidosRigidosScene(gScene, gPhysics), n);
 			break;
 		}
 		default:

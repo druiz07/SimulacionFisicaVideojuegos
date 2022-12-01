@@ -1,13 +1,23 @@
 #pragma once
 #include "Particula.h"
 #include "ParticleForceGenerator.h"
-#pragma once
+#include "BodyForceGenerator.h"
+#include "BodyExplosion.h"
 #include <map>
 
 
 typedef std::pair<ParticleForceGenerator*, Particula*>FRPair;
 class ParticleForceRegistry :public std::multimap<ParticleForceGenerator*, Particula*>
 {
+
+	struct BodyForceRegistration
+	{
+		SolidBody* body;
+		BodyForceGenerator* bfg;
+	};
+	typedef std::vector<BodyForceRegistration> BodyRegistry;
+	BodyRegistry bodyRegistrations;
+
 
 public:
 
@@ -40,6 +50,53 @@ public:
 	}
 	void clear() {
 		clear();
+	}
+
+	//METODOS PARA LOS CUERPOS RIGIDOS
+
+	BodyRegistry& getBodyRegistrations() {
+		return bodyRegistrations;
+	}
+
+	void addBodyForce(const std::vector<SolidBody*>& bodies, BodyForceGenerator* bfg) {
+		for (auto b : bodies) {
+
+			b->bodyForcesRegistries.push_back(bfg);
+			bodyRegistrations.push_back({ b, bfg });
+		}
+	}
+	void addBodyExplosionForce(const std::vector<SolidBody*>& bodies, int force) {
+		for (auto b : bodies) {
+			auto e = new BodyExplosion(force);
+
+			b->bodyForcesRegistries.push_back(e);
+			bodyRegistrations.push_back({ b, e });
+			b->bodyExplosionForce = e;
+		}
+	}
+
+	void clearBodyForces() {
+		bodyRegistrations.clear();
+	}
+
+	void updateBodyForces(float t) {
+		for (auto it = bodyRegistrations.begin(); it != bodyRegistrations.end(); ++it) {
+			it->bfg->updateForce(it->body, t);
+		}
+	}
+
+	void removeBodyForces(SolidBody* body) {
+
+		auto forcesRegistries = body->bodyForcesRegistries;
+
+		for (int i = forcesRegistries.size() - 1; i >= 0; i--) {
+			for (int c = bodyRegistrations.size() - 1; c >= 0; c--) {
+				if (bodyRegistrations[c].bfg == forcesRegistries[i]) {
+					bodyRegistrations.erase(bodyRegistrations.begin() + c);
+				}
+			}
+		}
+		forcesRegistries.clear();
 	}
 };
 

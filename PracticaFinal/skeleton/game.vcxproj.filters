@@ -23,6 +23,8 @@
     <ClCompile Include="ParticulasUnidasScene.cpp" />
     <ClCompile Include="MuelleFlotadorScene.cpp" />
     <ClCompile Include="Torbellino.cpp" />
+    <ClCompile Include="BodySystem.cpp" />
+    <ClCompile Include="SolidosRigidosScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -57,6 +59,13 @@
     <ClInclude Include="GeneradorSimple.hpp" />
     <ClInclude Include="Gaussiano.hpp" />
     <ClInclude Include="Torbellino.h" />
+    <ClInclude Include="BodyExplosion.h" />
+    <ClInclude Include="BodyForceGenerator.h" />
+    <ClInclude Include="BodySystem.h" />
+    <ClInclude Include="BodyTorque.h" />
+    <ClInclude Include="BodyWind.h" />
+    <ClInclude Include="SolidBody.h" />
+    <ClInclude Include="SolidosRigidosScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
