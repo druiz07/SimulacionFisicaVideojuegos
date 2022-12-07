@@ -58,13 +58,13 @@ void SolidosRigidosScene::keyPress(char k) {
 			explosion();
 			break;
 		}
-		case 'Z':
+		case 'C':
 		{
 			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
 			inertiaOffeset+=0.5;
 			sizeOffset += 0.5;
 		}
-		case 'X':
+		case 'M':
 		{
 			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
 			inertiaOffeset -= 0.5;
