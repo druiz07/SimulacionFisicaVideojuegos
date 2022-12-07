@@ -8,6 +8,10 @@ SolidosRigidosScene::SolidosRigidosScene(PxScene* scene, PxPhysics* physics) {
 void SolidosRigidosScene::initObjects() {
 	GetCamera()->setEye(physx::PxVec3(0, 70, 260));
 	GetCamera()->setDir(physx::PxVec3(0, 0, -1));
+	srand(time(NULL));
+
+	gPhysics->createMaterial(0.2f, 0.2f, 0.5f);
+
 
 	//Suelo
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 100));
@@ -20,6 +24,7 @@ void SolidosRigidosScene::initObjects() {
 	forceRegistry = new ParticleForceRegistry();
 
 	bodySystem = new BodySystem(gScene, gPhysics, forceRegistry, { 0, 50, 0 });
+	bodySystem->setInertiaSize(6, 3);
 
 	bodyWind = new BodyWind(Vector3(100, 0, 0));
 	bodyTorque = new BodyTorque(Vector3(0, 200, 0));
@@ -52,6 +57,26 @@ void SolidosRigidosScene::keyPress(char k) {
 		case 'E': {
 			explosion();
 			break;
+		}
+		case 'Z':
+		{
+			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
+			inertiaOffeset+=0.5;
+			sizeOffset += 0.5;
+		}
+		case 'X':
+		{
+			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
+			inertiaOffeset -= 0.5;
+			sizeOffset -= 0.5;
+		}
+		case '+': //Aumentar la friccion dinamica estatica y la restitucion
+		{
+			gPhysics->createMaterial(0.9f, 0.7f, 0.5f);
+		}
+		case '-'://Disminuir la friccion dinamica estatica y la restitucion
+		{
+			gPhysics->createMaterial(0.2f, 0.2f, 0.3f);
 		}
 		default:
 			break;

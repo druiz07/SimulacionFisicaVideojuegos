@@ -53,7 +53,7 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f); //Gravedad de los solidos rigidos
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
@@ -136,6 +136,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
+
+	std::cout << "Se ha producido una colision\n";
+
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }

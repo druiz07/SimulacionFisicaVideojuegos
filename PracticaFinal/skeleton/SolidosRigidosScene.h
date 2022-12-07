@@ -27,5 +27,8 @@ private:
 	BodyWind* bodyWind;
 	BodyTorque* bodyTorque;
 	ParticleForceRegistry* forceRegistry;
+
+	float inertiaOffeset=6.25;
+	float sizeOffset = 3.5;
 };
 

@@ -10,6 +10,7 @@ public:
 	BodySystem(PxScene* _scene, PxPhysics* _physics, ParticleForceRegistry* _forceRegistry, PxTransform _p, float _step = 1.5, bool _colorR = true, float _life = 10, float _size = 3, int _max = 20, Vector4 _color = { 1,0,0,1 }) {
 		scene = _scene; physics = _physics; p = _p; step = _step; colorR = _colorR; 
 		life = _life; size = _size; max = _max; color = _color; timeSiceAdded = 0;
+
 		numBodies = 0; forceRegistry = _forceRegistry;
 
 		srand(time(NULL));
@@ -30,8 +31,10 @@ public:
 		Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)) , -5.0f + rand() / (RAND_MAX / (10.0f)) };
 		body->rigid->setLinearVelocity(vel);
 		body->rigid->setMass(5);
-		PxRigidBodyExt::updateMassAndInertia(*body->rigid, size * size * size);
+		
 
+		if(inertia==0)PxRigidBodyExt::updateMassAndInertia(*body->rigid, size * size * size);
+		else PxRigidBodyExt::updateMassAndInertia(*body->rigid, inertia);
 
 
 
@@ -70,7 +73,11 @@ public:
 			}
 		}
 	}
-
+	void setInertiaSize(float i,float s)
+	{
+		inertia = i;
+		size =s;
+	}
 	std::vector<SolidBody*>& getBodies() {
 		return bodies;
 	}
@@ -85,6 +92,7 @@ private:
 	bool colorR;
 	float life;
 	float size;
+	float inertia=0;
 	int max;
 	Vector4 color;
 
