@@ -67,7 +67,7 @@ public:
 	}
 	void addBodyExplosionForce(const std::vector<SolidBody*>& bodies, int force) {
 		for (auto b : bodies) {
-			auto e = new BodyExplosion(force);
+			auto e = new BodyExplosion(200,200,100);
 
 			b->bodyForcesRegistries.push_back(e);
 			bodyRegistrations.push_back({ b, e });

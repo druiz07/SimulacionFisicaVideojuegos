@@ -30,7 +30,12 @@ public:
 
 		Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)) , -5.0f + rand() / (RAND_MAX / (10.0f)) };
 		body->rigid->setLinearVelocity(vel);
-		body->rigid->setMass(5);
+		int massRand= rand();
+		while (massRand > 10 || massRand < 2)
+		{
+			massRand = rand();
+		}
+		body->rigid->setMass(massRand);
 		
 
 		if(inertia==0)PxRigidBodyExt::updateMassAndInertia(*body->rigid, size * size * size);

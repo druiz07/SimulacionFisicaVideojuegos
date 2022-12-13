@@ -9,19 +9,38 @@ class BodyExplosion : public BodyForceGenerator
 {
 private:
 	// Acceleration for gravity
-	float f;
+
 	bool explota = false;
+	Vector3 explosionDir;
+	double R;
+	double K;
+	double constExplosion;
+
 public:
 
-	BodyExplosion(float force) : f(force) {}
+	BodyExplosion(double RR, double kk, double cE) : R(RR), K(kk), constExplosion(cE) {}
 
 	virtual void updateForce(SolidBody* body, float t) {
 		if (!explota) return;
+		double r = pow((body->rigid->getGlobalPose().p.x - expPos.x), 2) + pow((body->rigid->getGlobalPose().p.y - expPos.y), 2)
+			+ pow((body->rigid->getGlobalPose().p.z - expPos.z), 2);
 
-		Vector3 dir = body->rigid->getGlobalPose().p - expPos;
-		float dist = dir.normalize();
+		r = sqrt(r);
+		double e = 2.718;
 
-		body->rigid->addForce(dir * f / t, PxForceMode::eACCELERATION);
+		if (r < R) {
+
+			double a = K / pow(r, 2);
+			double b = pow(e, -(t / constExplosion));
+
+			explosionDir = a * Vector3(body->rigid->getGlobalPose().p.x - expPos.x, body->rigid->getGlobalPose().p.y - expPos.y, body->rigid->getGlobalPose().p.z - expPos.z) * b;
+
+		}
+
+
+
+
+		body->rigid->addForce(explosionDir*500, PxForceMode::eACCELERATION);
 
 		explota = false;
 	}
