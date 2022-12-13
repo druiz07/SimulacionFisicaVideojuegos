@@ -10,20 +10,20 @@ void SolidosRigidosScene::initObjects() {
 	GetCamera()->setDir(physx::PxVec3(0, 0, -1));
 	srand(time(NULL));
 
-	gPhysics->createMaterial(0.2f, 0.2f, 0.5f);
+	defectMat = gPhysics->createMaterial(0.2f, 0.2f, 0.5f);
 
 
 	//Suelo
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 100));
 	PxRigidStatic* ground = gPhysics->createRigidStatic({ 0,0,0 });
-	
+
 	ground->attachShape(*shape);
 	gScene->addActor(*ground);
 	sueloI = new RenderItem(shape, ground, { 0.56, 0.5, 0.3, 1 });
 
 	forceRegistry = new ParticleForceRegistry();
 
-	bodySystem = new BodySystem(gScene, gPhysics, forceRegistry, { 0, 50, 0 });
+	bodySystem = new BodySystem(gScene, gPhysics, forceRegistry, { 0, 50, 0 }, defectMat);
 	bodySystem->setInertiaSize(6, 3);
 
 	bodyWind = new BodyWind(Vector3(100, 0, 0));
@@ -54,32 +54,39 @@ void SolidosRigidosScene::update(float t) {
 void SolidosRigidosScene::keyPress(char k) {
 	switch (k)
 	{
-		case 'E': {
-			explosion();
-			break;
-		}
-		case 'C':
-		{
-			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
-			inertiaOffeset+=0.5;
-			sizeOffset += 0.5;
-		}
-		case 'M':
-		{
-			bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
-			inertiaOffeset -= 0.5;
-			sizeOffset -= 0.5;
-		}
-		case '+': //Aumentar la friccion dinamica estatica y la restitucion
-		{
-			gPhysics->createMaterial(0.9f, 0.7f, 0.5f);
-		}
-		case '-'://Disminuir la friccion dinamica estatica y la restitucion
-		{
-			gPhysics->createMaterial(0.2f, 0.2f, 0.3f);
-		}
-		default:
-			break;
+	case 'E': {
+		explosion();
+		break;
+	}
+	case 'C':
+	{
+		bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
+		inertiaOffeset += 0.5;
+		sizeOffset += 0.5;
+	}
+	case 'M':
+	{
+		bodySystem->setInertiaSize(inertiaOffeset, sizeOffset);
+		inertiaOffeset -= 0.5;
+		sizeOffset -= 0.5;
+	}
+	case '+': //Aumentar la friccion dinamica estatica y la restitucion
+	{
+		
+		defectMat->setStaticFriction(0.95);
+		defectMat->setDynamicFriction(0.75);
+		defectMat->setRestitution(0.5);
+
+	}
+	case '-'://Disminuir la friccion dinamica estatica y la restitucion
+	{
+
+		defectMat->setStaticFriction(0.1);
+		defectMat->setDynamicFriction(0.1);
+		defectMat->setRestitution(0.1);
+	}
+	default:
+		break;
 	}
 }
 

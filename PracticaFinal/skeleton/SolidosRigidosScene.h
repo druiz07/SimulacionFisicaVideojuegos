@@ -27,6 +27,7 @@ private:
 	BodyWind* bodyWind;
 	BodyTorque* bodyTorque;
 	ParticleForceRegistry* forceRegistry;
+	physx::PxMaterial* defectMat;
 
 	float inertiaOffeset=6.25;
 	float sizeOffset = 3.5;

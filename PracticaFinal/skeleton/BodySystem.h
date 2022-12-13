@@ -7,10 +7,10 @@
 
 class BodySystem {
 public:
-	BodySystem(PxScene* _scene, PxPhysics* _physics, ParticleForceRegistry* _forceRegistry, PxTransform _p, float _step = 1.5, bool _colorR = true, float _life = 10, float _size = 3, int _max = 20, Vector4 _color = { 1,0,0,1 }) {
+	BodySystem(PxScene* _scene, PxPhysics* _physics, ParticleForceRegistry* _forceRegistry, PxTransform _p, physx::PxMaterial* mat = nullptr, float _step = 1.5, bool _colorR = true, float _life = 10, float _size = 3, int _max = 20, Vector4 _color = { 1,0,0,1 }) {
 		scene = _scene; physics = _physics; p = _p; step = _step; colorR = _colorR; 
 		life = _life; size = _size; max = _max; color = _color; timeSiceAdded = 0;
-
+		m = mat;
 		numBodies = 0; forceRegistry = _forceRegistry;
 
 		srand(time(NULL));
@@ -25,7 +25,8 @@ public:
 
 		SolidBody* body = new SolidBody();
 		body->rigid = physics->createRigidDynamic(p);
-		PxShape* shape = CreateShape(PxBoxGeometry(size, size, size));
+		auto e=m->getRestitution();
+		PxShape* shape = CreateShape(PxBoxGeometry(size, size, size), m);
 		body->rigid->attachShape(*shape);
 
 		Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)) , -5.0f + rand() / (RAND_MAX / (10.0f)) };
@@ -100,6 +101,7 @@ private:
 	float inertia=0;
 	int max;
 	Vector4 color;
+	physx::PxMaterial* m;
 
 	float timeSiceAdded;
 	int numBodies;
